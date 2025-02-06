@@ -1,9 +1,9 @@
 import { memo, useEffect, useState } from 'react';
 import cls from 'classnames';
-import { useAtom, useAtomValue } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { IconTriangleUp, IconTriangleDown } from '@douyinfe/semi-icons';
 import { Typography, Card, Rating, Divider, Tag } from '@douyinfe/semi-ui';
-import { ratingMapAtom, reviewMapAtom } from '@renderer/models';
+import { ratingMapAtom, reviewMapAtom, updateRatingMapAtom } from '@renderer/models';
 import { ApiType, IStockProfile, KLineType } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
 
@@ -66,7 +66,8 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   const { profile, onMoreInfo } = props;
 
   const reviewMap = useAtomValue(reviewMapAtom);
-  const [ratingMap, setRatingMap] = useAtom(ratingMapAtom);
+  const ratingMap = useAtomValue(ratingMapAtom);
+  const updateRatingMap = useSetAtom(updateRatingMapAtom);
 
   const [dayAndWeekJAndRsi, setDayAndWeekJAndRsi] = useState<DayAndWeekJAndRsi | undefined>(
     undefined,
@@ -141,7 +142,7 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
           className="h-[22px]"
           size="small"
           value={ratingMap[profile.id] || 0}
-          onChange={(value) => setRatingMap((pre) => ({ ...pre, [profile.id]: value }))}
+          onChange={(value) => updateRatingMap({ ...ratingMap, [profile.id]: value })}
         />
         <Typography.Text link onClick={onMoreInfo}>
           查看更多

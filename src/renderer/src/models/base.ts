@@ -1,7 +1,6 @@
 import { atom } from 'jotai';
 import { ApiType, IStockId, StockFileter } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
-import { atomWithStorage } from 'jotai/utils';
 
 export const favoriteStockIdListAtom = atom<IStockId[] | undefined>(undefined);
 
@@ -44,15 +43,19 @@ export const updateFavoriteStockAtom = atom(
   },
 );
 
-export const ratingMapAtom = atomWithStorage<Record<string, number>>('rating-map', {}, undefined, {
-  getOnInit: true,
-});
-
-export const reviewMapAtom = atomWithStorage<Record<string, string | undefined>>(
-  'review-map',
-  {},
+export const ratingMapAtom = atom<Record<string, number>>({});
+export const reviewMapAtom = atom<Record<string, string | undefined>>({});
+export const updateRatingMapAtom = atom(
   undefined,
-  {
-    getOnInit: true,
+  async (_, set, ratingMap: Record<string, number>) => {
+    set(ratingMapAtom, ratingMap);
+    await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_RATING_MAP, ratingMap);
+  },
+);
+export const updateReviewMapAtom = atom(
+  undefined,
+  async (_, set, reviewMap: Record<string, string | undefined>) => {
+    set(reviewMapAtom, reviewMap);
+    await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_REVIEW_MAP, reviewMap);
   },
 );

@@ -12,4 +12,10 @@ export enum FileName {
 
   /** 基础信息 */
   PROFILE_STOCK_LIST = 'profile-stock-list',
+
+  /** 评分 */
+  RATING = 'rating',
+
+  /** 评论 */
+  REVIEW = 'review',
 }

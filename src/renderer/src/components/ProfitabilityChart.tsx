@@ -56,14 +56,14 @@ export const ProfitabilityChart = memo((props: ProfitabilityChartProps) => {
     }));
 
     const nonRecurringProfitLossMoveAverageValues = reports.reduce<
-      Array<{ year: number; type: string; value: number }>
+      Array<{ date: number; type: string; value: number }>
     >((pre, report) => {
       const cur =
-        getNumberInReport(report, 'l-yyzsr-营业总收入') -
-        getNumberInReport(report, 'l-yyzcb-营业总成本') -
-        getNumberInReport(report, 'x-jlr-净利润');
+        getNumberInReport(report, 'x-jlr-净利润') -
+        (getNumberInReport(report, 'l-yyzsr-营业总收入') -
+          getNumberInReport(report, 'l-yyzcb-营业总成本'));
       pre.push({
-        year: report.year,
+        date: report.year,
         type: '非经常性损益移动平均',
         value: ((pre[pre.length - 1]?.value || 0) * 2) / 3 + (cur * 1) / 3,
       });
@@ -71,16 +71,15 @@ export const ProfitabilityChart = memo((props: ProfitabilityChartProps) => {
     }, []);
 
     const capitalMaintenanceCostMoveAverageValues = reports.reduce<
-      Array<{ year: number; type: string; value: number }>
+      Array<{ date: number; type: string; value: number }>
     >((pre, report) => {
-      const cur =
-        getNumberInReport(
-          report,
-          'x-gdzczjyqzczhscxswzczj-固定资产折旧、油气资产折耗、生产性生物资产折旧',
-        ) + getNumberInReport(report, 'x-wxzctx-无形资产摊销');
+      const cur = getNumberInReport(
+        report,
+        'x-gjgdzcwxzchqtcqzczfdxj-购建固定资产、无形资产和其他长期资产支付的现金',
+      );
       pre.push({
-        year: report.year,
-        type: '资本支出移动平均',
+        date: report.year,
+        type: '购建资产支出移动平均',
         value: ((pre[pre.length - 1]?.value || 0) * 2) / 3 + (cur * 1) / 3,
       });
       return pre;
@@ -93,7 +92,7 @@ export const ProfitabilityChart = memo((props: ProfitabilityChartProps) => {
         year,
         type: '估计回报',
         value:
-          ((avg -
+          ((avg +
             nonRecurringProfitLossMoveAverageValues[index].value -
             capitalMaintenanceCostMoveAverageValues[index].value) /
             cap) *

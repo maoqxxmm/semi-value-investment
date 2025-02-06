@@ -35,7 +35,45 @@ const apiMap: Pick<
   | ApiType.UPDATE_DATA_DIRECTORY
   | ApiType.GET_FILTER_DATA
   | ApiType.UPDATE_FILTER_DATA
+  | ApiType.GET_RATING_MAP
+  | ApiType.GET_REVIEW_MAP
+  | ApiType.UPDATE_RATING_MAP
+  | ApiType.UPDATE_REVIEW_MAP
 > = {
+  [ApiType.GET_RATING_MAP]: async () => {
+    const dir = assertDataDirectoryIsSelected();
+    const filepath = path.join(dir, DataDirecotry.BASE, FileName.RATING);
+    if (fs.existsSync(filepath)) {
+      const res = await getFileText(filepath);
+      return JSON.parse(res);
+    } else {
+      return {};
+    }
+  },
+  [ApiType.GET_REVIEW_MAP]: async () => {
+    const dir = assertDataDirectoryIsSelected();
+    const filepath = path.join(dir, DataDirecotry.BASE, FileName.REVIEW);
+    if (fs.existsSync(filepath)) {
+      const res = await getFileText(filepath);
+      return JSON.parse(res);
+    } else {
+      return {};
+    }
+  },
+  [ApiType.UPDATE_RATING_MAP]: async (ratingMap) => {
+    await writeFileText(
+      path.join(assertDataDirectoryIsSelected(), DataDirecotry.BASE),
+      FileName.RATING,
+      JSON.stringify(ratingMap),
+    );
+  },
+  [ApiType.UPDATE_REVIEW_MAP]: async (reviewMap) => {
+    await writeFileText(
+      path.join(assertDataDirectoryIsSelected(), DataDirecotry.BASE),
+      FileName.REVIEW,
+      JSON.stringify(reviewMap),
+    );
+  },
   [ApiType.GET_FAVORITE_STOCK_ID_LIST]: async () => {
     const dir = assertDataDirectoryIsSelected();
     const filepath = path.join(dir, DataDirecotry.BASE, FileName.FAVORITE_STOCK_ID_LIST);

@@ -34,13 +34,17 @@ import {
   reviewMapAtom,
   stockProfileListAtom,
   updateFavoriteStockAtom,
+  updateRatingMapAtom,
+  updateReviewMapAtom,
 } from '@renderer/models';
 import { ACCOUNT_ITEM, BalanceSheetType, TOTAL_KEY_IN_BALANCE_SHEET } from '@shared/constants';
 import { useStockDetailData } from '@renderer/hooks';
 
 export const StockDetail = memo(() => {
-  const [ratingMap, setRatingMap] = useAtom(ratingMapAtom);
-  const [reviewMap, setReviewMap] = useAtom(reviewMapAtom);
+  const ratingMap = useAtomValue(ratingMapAtom);
+  const reviewMap = useAtomValue(reviewMapAtom);
+  const updateRatingMap = useSetAtom(updateRatingMapAtom);
+  const updateReviewMap = useSetAtom(updateReviewMapAtom);
   const favSet = useAtomValue(favoriteStockIdSetAtom);
   const profileList = useAtomValue(stockProfileListAtom);
   const month = useAtomValue(monthAtom);
@@ -158,7 +162,10 @@ export const StockDetail = memo(() => {
 
   const onModalEditOk = () => {
     if (editModalInfo) {
-      setReviewMap((pre) => ({ ...pre, [editModalInfo.id]: editModalInfo.review }));
+      updateReviewMap({
+        ...reviewMap,
+        [editModalInfo.id]: editModalInfo.review,
+      });
     }
     setEditModalInfo(undefined);
   };
@@ -207,7 +214,10 @@ export const StockDetail = memo(() => {
                   allowClear
                   value={ratingMap[current.stockId] || 0}
                   onChange={(value) =>
-                    setRatingMap((pre) => ({ ...pre, [current.stockId]: value }))
+                    updateRatingMap({
+                      ...ratingMap,
+                      [current.stockId]: value,
+                    })
                   }
                 />
                 <Divider layout="vertical" />

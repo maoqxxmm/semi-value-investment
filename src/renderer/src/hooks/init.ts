@@ -1,19 +1,36 @@
 import { useSetAtom } from 'jotai';
-import { useAsyncEffect } from 'ahooks';
+import { useMount } from 'ahooks';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
 import { ApiType } from '@shared/types';
-import { favoriteStockIdListAtom, stockProfileListAtom } from '@renderer/models';
+import {
+  favoriteStockIdListAtom,
+  stockProfileListAtom,
+  updateRatingMapAtom,
+  updateReviewMapAtom,
+} from '@renderer/models';
 
 export const useInit = () => {
   const setFavoriteStockIdList = useSetAtom(favoriteStockIdListAtom);
   const setProfileList = useSetAtom(stockProfileListAtom);
+  const updateRatingMap = useSetAtom(updateRatingMapAtom);
+  const updateReviewMap = useSetAtom(updateReviewMapAtom);
 
-  useAsyncEffect(async function* () {
+  useMount(async () => {
+    const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_RATING_MAP);
+    updateRatingMap(res);
+  });
+
+  useMount(async () => {
+    const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_REVIEW_MAP);
+    updateReviewMap(res);
+  });
+
+  useMount(async () => {
     const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_FAVORITE_STOCK_ID_LIST);
     setFavoriteStockIdList(res);
-  }, []);
+  });
 
-  useAsyncEffect(async function* () {
+  useMount(async () => {
     const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_PROFILE_LIST_IN_CACHE);
     if (res) {
       setProfileList(res);
@@ -25,5 +42,5 @@ export const useInit = () => {
     );
     setProfileList(newList);
     await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_STOCK_PROFILE_LIST_BY_FILTER, newList);
-  }, []);
+  });
 };
