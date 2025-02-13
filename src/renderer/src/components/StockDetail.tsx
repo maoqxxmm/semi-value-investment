@@ -22,6 +22,7 @@ import { CostLineChartWithCard } from '@renderer/components/CostLineChart';
 import { BalanceSheetChartWithCard } from '@renderer/components/BalanceSheetChart';
 import { BizLineChartWithCard } from '@renderer/components/BizLineChart';
 import { MarginCostCoverageLineChartWithCard } from '@renderer/components/MarginCostCoverageLineChart';
+import { ReceivableCollectionCapacityLineChartWithCard } from '@renderer/components/ReceivableCollectionCapacityLineChart';
 import { KdJAndRsiChartWithCard } from '@renderer/components/KdJAndRsiChart';
 import { ManagerTableWithCard } from '@renderer/components/ManagerTable';
 import { ManagerHoldingChangeTableWithCard } from '@renderer/components/ManagerHoldingChangeTable';
@@ -137,6 +138,7 @@ export const StockDetail = memo(() => {
         <div className="my-4 grid gap-4 grid-cols-3 h-[300px]">
           <BizLineChartWithCard month={month} bizItems={bizItems} />
           <MarginCostCoverageLineChartWithCard reports={reports} />
+          <ReceivableCollectionCapacityLineChartWithCard reports={reports} />
         </div>
         <div className="my-4 grid gap-4 grid-cols-2 h-[320px]">
           <KdJAndRsiChartWithCard type={KLineType.DAY} data={dayRsiAndKdj} />
