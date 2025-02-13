@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { Spin } from '@douyinfe/semi-ui';
+import { Spin, Divider } from '@douyinfe/semi-ui';
 import {
   currentStockDetailPagePropsAtom,
   favoriteStockIdListAtom,
@@ -83,6 +83,9 @@ export const Home = memo(() => {
           '未持有',
           profileList.filter((item) => !ratingMap[item.id]),
         )}
+        <Divider margin={36} align="center">
+          以下是持仓数据
+        </Divider>
         {listRender(
           '买入',
           profileList.filter((item) => ratingMap[item.id] === 5),

@@ -120,6 +120,8 @@ export interface BizItem {
   month: ReportMonth;
   /** 占比。例：0.85 */
   ratio: number;
+  /** 业务收入 */
+  income: number;
   /** 业务名称。例：茅台酒 */
   name: string;
   /** 毛利率 */

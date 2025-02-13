@@ -132,6 +132,8 @@ export const CombinedLineChart = memo((props: CombinedLineChartProps) => {
                 value: (datum) => `${formatFinancialNumber(datum?.value)}`,
               },
             ],
+            updateContent: (pre) =>
+              pre?.slice()?.sort((a, b) => Number(b?.datum?.value) - Number(a?.datum?.value)),
           },
         },
         line: {

@@ -20,6 +20,8 @@ import { ProfitabilityChartWithCard } from '@renderer/components/ProfitabilityCh
 import { BizPieChartWithCard } from '@renderer/components/BizPieChart';
 import { CostLineChartWithCard } from '@renderer/components/CostLineChart';
 import { BalanceSheetChartWithCard } from '@renderer/components/BalanceSheetChart';
+import { BizLineChartWithCard } from '@renderer/components/BizLineChart';
+import { MarginCostCoverageLineChartWithCard } from '@renderer/components/MarginCostCoverageLineChart';
 import { KdJAndRsiChartWithCard } from '@renderer/components/KdJAndRsiChart';
 import { ManagerTableWithCard } from '@renderer/components/ManagerTable';
 import { ManagerHoldingChangeTableWithCard } from '@renderer/components/ManagerHoldingChangeTable';
@@ -132,6 +134,10 @@ export const StockDetail = memo(() => {
             type="non-current-debt"
           />
         </div>
+        <div className="my-4 grid gap-4 grid-cols-3 h-[300px]">
+          <BizLineChartWithCard month={month} bizItems={bizItems} />
+          <MarginCostCoverageLineChartWithCard reports={reports} />
+        </div>
         <div className="my-4 grid gap-4 grid-cols-2 h-[320px]">
           <KdJAndRsiChartWithCard type={KLineType.DAY} data={dayRsiAndKdj} />
           <KdJAndRsiChartWithCard type={KLineType.WEEK} data={weekRsiAndKdj} />
@@ -141,6 +147,10 @@ export const StockDetail = memo(() => {
           <DividendLineChartWithCard dividentItems={dividendItems} />
           <ReportOriginListCard items={reportOriginItems} />
         </div>
+        <div className="my-4 grid gap-4 grid-cols-2 h-[320px]">
+          <ResearchReportListCard items={researchReportItems} />
+          <BizResearchReportListCard items={bizResearchReportItems} />
+        </div>
         <div className="my-4 gap-4 flex h-[320px]">
           <div className="flex-[2] h-full overflow-hidden">
             <ManagerTableWithCard managerItems={managerItems} />
@@ -148,10 +158,6 @@ export const StockDetail = memo(() => {
           <div className="flex-[3] h-full overflow-hidden">
             <ManagerHoldingChangeTableWithCard changes={managerHoldingChangeItems} />
           </div>
-        </div>
-        <div className="my-4 grid gap-4 grid-cols-2 h-[320px]">
-          <ResearchReportListCard items={researchReportItems} />
-          <BizResearchReportListCard items={bizResearchReportItems} />
         </div>
         <Divider align="center" margin={48}>
           没有更多的内容了

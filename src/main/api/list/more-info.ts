@@ -57,6 +57,7 @@ const apiMap: Pick<
         year: Number(year),
         month: Number(monthStr) as ReportMonth,
         ratio: item.MBI_RATIO,
+        income: item.MAIN_BUSINESS_INCOME,
         name: item.ITEM_NAME,
         gpr: item.GROSS_RPOFIT_RATIO,
       };
