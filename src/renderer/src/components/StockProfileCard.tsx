@@ -1,5 +1,4 @@
 import { memo, useEffect, useState } from 'react';
-import cls from 'classnames';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { IconTriangleUp, IconTriangleDown } from '@douyinfe/semi-icons';
 import { Typography, Card, Rating, Divider, Tag } from '@douyinfe/semi-ui';
@@ -45,13 +44,10 @@ const tagRender = (params: TagRenderParams) => {
     ) : (
       <IconTriangleUp style={{ fontSize: 10 }} />
     );
-  const lessColor = highContrast ? 'green' : 'lime';
-  const greaterColor = highContrast ? 'red' : 'pink';
-  const color = value < domain[0] ? lessColor : greaterColor;
+  const color = value < domain[0] ? 'lime' : 'pink';
   return (
     <Tag
-      className={cls('text-xs', { 'opacity-40': !highContrast })}
-      type="solid"
+      type={highContrast ? 'solid' : 'light'}
       shape="circle"
       prefixIcon={icon}
       suffixIcon={suffix}
