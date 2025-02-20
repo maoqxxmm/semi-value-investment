@@ -1,5 +1,5 @@
 import { ApiFuncMap, ApiType, SingleFinancialReport, ReportMonth } from '@shared/types';
-import { axiosGet, makeSureiIsArray } from '@main/utils';
+import { axiosGet, makeSureIsArray } from '@main/utils';
 import dayjs from 'dayjs';
 
 const DATES_EX_YEAR: Array<{ month: ReportMonth; str: string }> = [
@@ -99,7 +99,7 @@ const getReportsRequest = async (params: getReportsRequestParams) => {
     return pre.concat(cur);
   }, []);
 
-  const usableDataList = makeSureiIsArray(resList)
+  const usableDataList = makeSureIsArray(resList)
     .filter(Boolean)
     .map<SingleFinancialReport>(genFinancialReport)
     .sort((a, b) => {
@@ -205,7 +205,7 @@ const apiMap: Pick<
       source: 'HSF10',
       client: 'PC',
     });
-    return makeSureiIsArray(res.result.data).map(genFinancialReport);
+    return makeSureIsArray(res.result.data).map(genFinancialReport);
   },
 };
 

@@ -1,4 +1,5 @@
 import { memo, useMemo, useState, useRef } from 'react';
+import cls from 'classnames';
 import { createPortal } from 'react-dom';
 import {
   Breadcrumb,
@@ -42,6 +43,7 @@ import {
 } from '@renderer/models';
 import { ACCOUNT_ITEM, BalanceSheetType, TOTAL_KEY_IN_BALANCE_SHEET } from '@shared/constants';
 import { useStockDetailData } from '@renderer/hooks';
+import classNames from 'classnames';
 
 export const StockDetail = memo(() => {
   const ratingMap = useAtomValue(ratingMapAtom);

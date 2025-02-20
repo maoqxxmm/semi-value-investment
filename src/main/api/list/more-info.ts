@@ -11,7 +11,7 @@ import {
   ServiceBizItem,
 } from '@shared/types';
 import dayjs from 'dayjs';
-import { axiosGet, makeSureiIsArray } from '@main/utils';
+import { axiosGet, makeSureIsArray } from '@main/utils';
 
 const apiMap: Pick<
   ApiFuncMap,
@@ -44,7 +44,7 @@ const apiMap: Pick<
       return [];
     }
 
-    const list = makeSureiIsArray(res.result.data) as ServiceBizItem[];
+    const list = makeSureIsArray(res.result.data) as ServiceBizItem[];
 
     const bizList: BizItem[] = [];
     list.forEach((item) => {
@@ -80,7 +80,7 @@ const apiMap: Pick<
       source: 'HSF10',
       client: 'PC',
     });
-    return makeSureiIsArray<DividendItem>(res?.result?.data).map((item) => ({
+    return makeSureIsArray<DividendItem>(res?.result?.data).map((item) => ({
       ...item,
       TRADE_DATE: dayjs(item.TRADE_DATE).format('YYYY-MM-DD'),
     }));
@@ -95,7 +95,7 @@ const apiMap: Pick<
       source: 'HSF10',
       client: 'PC',
     });
-    return makeSureiIsArray<ManagerItem>(res?.result?.data);
+    return makeSureIsArray<ManagerItem>(res?.result?.data);
   },
   [ApiType.GET_MANAGER_HOLDING_CHANGE]: async (stockId) => {
     const url = 'https://datacenter.eastmoney.com/securities/api/data/v1/get';
@@ -111,7 +111,7 @@ const apiMap: Pick<
       source: 'HSF10',
       client: 'PC',
     });
-    return makeSureiIsArray<ManagerHoldingChangeItem>(res?.result?.data);
+    return makeSureIsArray<ManagerHoldingChangeItem>(res?.result?.data);
   },
   [ApiType.GET_REPORT_ORIGIN_INFO]: async (stockId) => {
     const url = 'https://datacenter.eastmoney.com/securities/api/data/v1/get';
@@ -126,7 +126,7 @@ const apiMap: Pick<
       source: 'HSF10',
       client: 'PC',
     });
-    return makeSureiIsArray<ReportOriginItem>(res?.result?.data);
+    return makeSureIsArray<ReportOriginItem>(res?.result?.data);
   },
   [ApiType.GET_PDF_URL]: async (article) => {
     const url = 'https://np-cnotice-stock.eastmoney.com/api/content/ann';
@@ -151,7 +151,7 @@ const apiMap: Pick<
       type: 'A',
       report_type: '0,1',
     });
-    return makeSureiIsArray<ResearchReportItem>(res?.data?.list);
+    return makeSureIsArray<ResearchReportItem>(res?.data?.list);
   },
   [ApiType.GET_RESEARCH_REPORT_PDF_URL]: async (article) => {
     const url = 'https://np-creport-pc.eastmoney.com/api/content/rep';
@@ -174,7 +174,7 @@ const apiMap: Pick<
       indu_old_industry_code: Number(bizId.replace('BK', '')),
       report_type: '2',
     });
-    return makeSureiIsArray<ResearchReportItem>(res?.data?.list);
+    return makeSureIsArray<ResearchReportItem>(res?.data?.list);
   },
 };
 

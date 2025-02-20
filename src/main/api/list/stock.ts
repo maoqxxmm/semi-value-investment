@@ -1,6 +1,6 @@
 import path from 'path';
 import { ApiFuncMap, ApiType, DataDirecotry, FileName, IStockProfile } from '@shared/types';
-import { getFileText, makeSureiIsArray, writeFileText } from '@main/utils';
+import { getFileText, makeSureIsArray, writeFileText } from '@main/utils';
 import { axiosGet } from '@main/utils';
 import { assertDataDirectoryIsSelected } from './base';
 import dayjs from 'dayjs';
@@ -82,7 +82,7 @@ const apiMap: Pick<
       pageSize: 20,
     });
     try {
-      return makeSureiIsArray(res?.result)
+      return makeSureIsArray(res?.result)
         .map((item) => {
           const { securityTypeName } = item;
           let sType = 'UNKNOWN';
@@ -187,7 +187,7 @@ const apiMap: Pick<
             return [];
           }
 
-          return makeSureiIsArray(res.result.data)
+          return makeSureIsArray(res.result.data)
             .map<IStockProfile>((item) => {
               const { SECUCODE } = item;
               const [code, stockExchangeName] = SECUCODE.split('.');

@@ -54,7 +54,7 @@ export const BizPieChart = memo((props: BizPieChartProps) => {
           },
           state: {
             hover: null,
-          },
+          } as any,
         },
         label: {
           visible: true,

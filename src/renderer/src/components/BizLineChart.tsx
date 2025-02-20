@@ -2,7 +2,6 @@ import { memo, useMemo } from 'react';
 import { Card } from '@douyinfe/semi-ui';
 import { VChart } from '@visactor/react-vchart';
 import { BizItem, ReportMonth } from '@shared/types';
-import { formatWithOptions } from 'util';
 import { formatFinancialNumber } from '@renderer/utils';
 
 interface BizLineChartProps {

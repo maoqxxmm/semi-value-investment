@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { ApiFuncMap, ApiType, KLineItem, KLineType } from '@shared/types';
-import { computeKdj, makeSureiIsArray, axiosGet, computeRSI } from '@main/utils';
+import { computeKdj, makeSureIsArray, axiosGet, computeRSI } from '@main/utils';
 
 const apiMap: Pick<ApiFuncMap, ApiType.GET_K_LINES_DATA | ApiType.GET_KDJ_RSI> = {
   [ApiType.GET_KDJ_RSI]: async (params) => {
@@ -51,7 +51,7 @@ const apiMap: Pick<ApiFuncMap, ApiType.GET_K_LINES_DATA | ApiType.GET_KDJ_RSI> =
       rtntype: '6',
       fqt: '1',
     });
-    return makeSureiIsArray(res.data.klines).map<KLineItem>((line) => {
+    return makeSureIsArray(res.data.klines).map<KLineItem>((line) => {
       const items = line.split(',');
       return {
         type,
