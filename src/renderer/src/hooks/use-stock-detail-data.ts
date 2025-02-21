@@ -26,7 +26,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
   const { stockId, month = 12 } = params;
   const [baseInfo, setBaseInfo] = useState<IStockSearchItem | undefined>(undefined);
   const [profile, setProfile] = useState<IStockProfile | undefined>(undefined);
-  const [dayRsiAndKdj, setDayRsiAndKdj] = useState<KdjAndRsiResult | undefined>(undefined);
+  const [monthRsiAndKdj, setMonthRsiAndKdj] = useState<KdjAndRsiResult | undefined>(undefined);
   const [weekRsiAndKdj, setWeekRsiAndKdj] = useState<KdjAndRsiResult | undefined>(undefined);
   const [reports, setReports] = useState<SingleFinancialReport[]>([]);
   const [bizItems, setBizItems] = useState<BizItem[]>([]);
@@ -48,7 +48,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
       }
       try {
         setLoading(true);
-        const [pf, reports, infoList, day, week, biz, div, mangers, holdings, origins, researchs] =
+        const [pf, reports, infoList, m, week, biz, div, mangers, holdings, origins, researchs] =
           await Promise.all([
             safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_PROFILE, stockId),
             safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_SIX_YEAR_FINANCE_REPORTS, {
@@ -59,7 +59,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
             safelyRequestByIpcWithErrorToast(ApiType.SEARCH_STOCK, stockId),
             safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
               stockId,
-              type: KLineType.DAY,
+              type: KLineType.MONTH,
             }),
             safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
               stockId,
@@ -85,7 +85,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
         setProfile(pf);
         setReports(reports);
         setBaseInfo(infoList[0]);
-        setDayRsiAndKdj(day);
+        setMonthRsiAndKdj(m);
         setWeekRsiAndKdj(week);
         setBizItems(biz);
         setDividendItems(div);
@@ -108,7 +108,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
       loading,
       reports,
       baseInfo,
-      dayRsiAndKdj,
+      monthRsiAndKdj,
       weekRsiAndKdj,
       bizItems,
       dividendItems,
@@ -123,7 +123,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
       loading,
       reports,
       baseInfo,
-      dayRsiAndKdj,
+      monthRsiAndKdj,
       weekRsiAndKdj,
       bizItems,
       dividendItems,

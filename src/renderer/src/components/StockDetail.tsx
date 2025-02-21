@@ -1,5 +1,4 @@
 import { memo, useMemo, useState, useRef } from 'react';
-import cls from 'classnames';
 import { createPortal } from 'react-dom';
 import {
   Breadcrumb,
@@ -43,7 +42,6 @@ import {
 } from '@renderer/models';
 import { ACCOUNT_ITEM, BalanceSheetType, TOTAL_KEY_IN_BALANCE_SHEET } from '@shared/constants';
 import { useStockDetailData } from '@renderer/hooks';
-import classNames from 'classnames';
 
 export const StockDetail = memo(() => {
   const ratingMap = useAtomValue(ratingMapAtom);
@@ -65,7 +63,7 @@ export const StockDetail = memo(() => {
     loading,
     reports,
     baseInfo,
-    dayRsiAndKdj,
+    monthRsiAndKdj,
     weekRsiAndKdj,
     bizItems,
     dividendItems,
@@ -143,8 +141,8 @@ export const StockDetail = memo(() => {
           <ReceivableCollectionCapacityLineChartWithCard reports={reports} />
         </div>
         <div className="my-4 grid gap-4 grid-cols-2 h-[320px]">
-          <KdJAndRsiChartWithCard type={KLineType.DAY} data={dayRsiAndKdj} />
           <KdJAndRsiChartWithCard type={KLineType.WEEK} data={weekRsiAndKdj} />
+          <KdJAndRsiChartWithCard type={KLineType.MONTH} data={monthRsiAndKdj} />
         </div>
         <div className="my-4 grid gap-4 grid-cols-3 h-[320px]">
           <CombinedLineChartWithCard reports={reports} />

@@ -11,12 +11,12 @@ interface StockProfileCardProps {
   onMoreInfo: () => void;
 }
 
-interface DayAndWeekJAndRsi {
-  day: {
+interface MonthAndWeekJAndRsi {
+  week: {
     j: number;
     rsi: number;
   };
-  week: {
+  month: {
     j: number;
     rsi: number;
   };
@@ -65,17 +65,17 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   const ratingMap = useAtomValue(ratingMapAtom);
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
 
-  const [dayAndWeekJAndRsi, setDayAndWeekJAndRsi] = useState<DayAndWeekJAndRsi | undefined>(
+  const [monthAndWeekJAndRsi, setMonthAndWeekJAndRsi] = useState<MonthAndWeekJAndRsi | undefined>(
     undefined,
   );
 
   useEffect(() => {
     let didCancel = false;
     (async () => {
-      const [day, week] = await Promise.all([
+      const [month, week] = await Promise.all([
         safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
           stockId: profile.id,
-          type: KLineType.DAY,
+          type: KLineType.MONTH,
         }),
         safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
           stockId: profile.id,
@@ -85,10 +85,10 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
       if (didCancel) {
         return;
       }
-      setDayAndWeekJAndRsi({
-        day: {
-          j: day.j.slice(-1)[0]?.value || 0,
-          rsi: day.rsi.slice(-1)[0].value || 0,
+      setMonthAndWeekJAndRsi({
+        month: {
+          j: month.j.slice(-1)[0]?.value || 0,
+          rsi: month.rsi.slice(-1)[0].value || 0,
         },
         week: {
           j: week.j.slice(-1)[0]?.value || 0,
@@ -113,20 +113,20 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
         description={reviewMap[profile.id] || '--'}
       />
       <div className="flex items-center gap-2 my-2">
-        {dayAndWeekJAndRsi ? (
+        {monthAndWeekJAndRsi ? (
           <>
-            {tagRender({ domain: [0, 100], suffix: 'J', value: dayAndWeekJAndRsi.day.j })}
-            {tagRender({ domain: [20, 80], suffix: 'RSI', value: dayAndWeekJAndRsi.day.rsi })}
+            {tagRender({ domain: [0, 100], suffix: 'J', value: monthAndWeekJAndRsi.week.j })}
+            {tagRender({ domain: [20, 80], suffix: 'RSI', value: monthAndWeekJAndRsi.week.rsi })}
             {tagRender({
               domain: [0, 100],
               suffix: 'J',
-              value: dayAndWeekJAndRsi.week.j,
+              value: monthAndWeekJAndRsi.month.j,
               highContrast: true,
             })}
             {tagRender({
               domain: [20, 80],
               suffix: 'RSI',
-              value: dayAndWeekJAndRsi.week.rsi,
+              value: monthAndWeekJAndRsi.month.rsi,
               highContrast: true,
             })}
           </>
