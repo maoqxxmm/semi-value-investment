@@ -278,7 +278,7 @@ export const StockDetail = memo(() => {
             setEditModalInfo((pre) => (pre?.id ? { ...pre, review: value } : undefined))
           }
           onKeyDown={(e) => {
-            if (e.key === 'Enter' && e.metaKey) {
+            if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
               onModalEditOk();
               e.preventDefault();
             }
