@@ -390,14 +390,14 @@ export type BalanceSheetType =
   | 'debt'
   | 'current-asset'
   | 'current-debt'
-  | 'non-currnet-asset'
+  | 'non-current-asset'
   | 'non-current-debt';
 
 export const TOTAL_KEY_IN_BALANCE_SHEET: Record<BalanceSheetType, keyof typeof ACCOUNT_ITEM> = {
   asset: 'z-zczj-资产总计',
   debt: 'z-fzhj-负债合计',
   'current-asset': 'z-ldzchj-流动资产合计',
-  'non-currnet-asset': 'z-fldzchj-非流动资产合计',
+  'non-current-asset': 'z-fldzchj-非流动资产合计',
   'current-debt': 'z-ldfzhj-流动负债合计',
   'non-current-debt': 'z-fldfzhj-非流动负债合计',
 };
@@ -406,7 +406,7 @@ export const SHEET_TYPE_TO_TITLE: Record<BalanceSheetType, string> = {
   asset: '资产',
   debt: '负债',
   'current-asset': '流动资产',
-  'non-currnet-asset': '非流动资产',
+  'non-current-asset': '非流动资产',
   'current-debt': '流动负债',
   'non-current-debt': '非流动负债',
 };
@@ -424,7 +424,7 @@ export const SHEET_TYPE_TO_KEYS: Record<BalanceSheetType, Array<keyof typeof ACC
   asset: assetItemKeys,
   debt: debtItemKeys,
   'current-asset': currentAssetItemKeys,
-  'non-currnet-asset': nonCurrentAssetItemKeys,
+  'non-current-asset': nonCurrentAssetItemKeys,
   'current-debt': currentDebtItemKeys,
   'non-current-debt': nonCurrentDebtItemKeys,
 };

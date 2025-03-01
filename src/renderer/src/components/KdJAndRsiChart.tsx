@@ -41,7 +41,7 @@ const getJMarkLineStyle = (type: ChartType) => ({
 });
 
 export const KdJAndRsiChart = memo((props: KdJAndRsiChartProps) => {
-  const { type, data, during = 50, compact } = props;
+  const { type, data, during = 100, compact } = props;
 
   return (
     <LineChart
@@ -111,7 +111,7 @@ export const KdJAndRsiChart = memo((props: KdJAndRsiChartProps) => {
             ...getJMarkLineStyle('rsi'),
             label: {
               ...getJMarkLineStyle('rsi').label,
-              text: '100',
+              text: '80',
             },
           },
           {
@@ -120,7 +120,7 @@ export const KdJAndRsiChart = memo((props: KdJAndRsiChartProps) => {
             ...getJMarkLineStyle('rsi'),
             label: {
               ...getJMarkLineStyle('rsi').label,
-              text: '100',
+              text: '20',
             },
           },
         ],

@@ -91,7 +91,7 @@ export const StockDetail = memo(() => {
     const types: BalanceSheetType[] = [
       'current-asset',
       'current-debt',
-      'non-currnet-asset',
+      'non-current-asset',
       'non-current-debt',
     ];
     const max = Math.max(
@@ -126,7 +126,7 @@ export const StockDetail = memo(() => {
           <BalanceSheetChartWithCard
             max={balanceSheetMax}
             reports={reports}
-            type="non-currnet-asset"
+            type="non-current-asset"
           />
           <BalanceSheetChartWithCard max={balanceSheetMax} reports={reports} type="current-debt" />
           <BalanceSheetChartWithCard

@@ -1,6 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, ReactNode, useEffect, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { Spin, Divider } from '@douyinfe/semi-ui';
+import { Spin, Divider, Button } from '@douyinfe/semi-ui';
 import {
   currentStockDetailPagePropsAtom,
   favoriteStockIdListAtom,
@@ -15,6 +15,7 @@ export const Home = memo(() => {
   const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
   const ratingMap = useAtomValue(ratingMapAtom);
 
+  const [refreshCount, setRefreshCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [profileList, setProfileList] = useState<IStockProfile[]>([]);
 
@@ -44,7 +45,7 @@ export const Home = memo(() => {
     };
   }, [favList]);
 
-  const listRender = (title: string, list: IStockProfile[]) => {
+  const listRender = (title: string, list: IStockProfile[], extra?: ReactNode) => {
     return (
       <div className="mb-8">
         <div className="my-2 flex items-center gap-2">
@@ -52,11 +53,12 @@ export const Home = memo(() => {
           {list.length ? (
             <div className="text-semi-color-text-3 text-xs">共{list.length}条数据</div>
           ) : null}
+          {extra}
         </div>
         <div className="grid grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-4">
           {list.map((item) => (
             <StockProfileCard
-              key={item.id}
+              key={`${item.id}-${refreshCount}`}
               profile={item}
               onMoreInfo={() =>
                 setCurrent({
@@ -82,8 +84,13 @@ export const Home = memo(() => {
         {listRender(
           '未持有',
           profileList.filter((item) => !ratingMap[item.id]),
+          <div className="ml-auto mt-2">
+            <Button theme="solid" onClick={() => setRefreshCount((pre) => pre + 1)}>
+              刷新数据
+            </Button>
+          </div>,
         )}
-        <Divider margin={36} align="center">
+        <Divider margin={48} align="center">
           以下是持仓数据
         </Divider>
         {listRender(
