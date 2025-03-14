@@ -11,7 +11,6 @@ interface MarginCostCoverageLineChartProps {
 export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineChartProps) => {
   const { reports } = props;
 
-  console.log(reports);
   const values = useMemo(() => {
     // 用 i 年的费用 / i+1 年的毛利润
     const dev = reports.slice(1).map((report, index) => ({
@@ -54,7 +53,7 @@ export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineCh
       spec={{
         type: 'line',
         title: {
-          text: '毛利费用覆盖率',
+          text: '每单位毛利所需费用',
         },
         padding: [0],
         data: {

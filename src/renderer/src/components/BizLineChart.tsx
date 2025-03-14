@@ -41,7 +41,7 @@ export const BizLineChart = memo((props: BizLineChartProps) => {
     <VChart
       key={sortedBizItems.map((item) => (item.ratio * 100).toFixed(0)).join('-')}
       spec={{
-        type: 'area',
+        type: 'bar',
         title: {
           text: '历史业务占比',
         },
@@ -52,7 +52,6 @@ export const BizLineChart = memo((props: BizLineChartProps) => {
         xField: 'year',
         yField: 'income',
         seriesField: 'name',
-        point: { visible: false },
         padding: [0],
         axes: [
           {
@@ -73,6 +72,16 @@ export const BizLineChart = memo((props: BizLineChartProps) => {
         ],
         tooltip: {
           confine: false,
+          mark: {
+            title: {
+              value: (datum) => `${datum?.year} 年`,
+            },
+            content: {
+              key: (datum) => datum?.name,
+              value: (datum) =>
+                `${formatFinancialNumber(datum?.income)} (GPR: ${formatFinancialNumber(datum?.gpr * 100, { unit: '%' })}, Rate: ${formatFinancialNumber(datum?.ratio * 100, { unit: '%' })})`,
+            },
+          },
           dimension: {
             title: {
               value: (datum) => `${datum?.year} 年`,
@@ -88,11 +97,6 @@ export const BizLineChart = memo((props: BizLineChartProps) => {
               const res = pre?.slice()?.reverse();
               return res;
             },
-          },
-        },
-        line: {
-          style: {
-            curveType: 'monotone',
           },
         },
         animationUpdate: false,
