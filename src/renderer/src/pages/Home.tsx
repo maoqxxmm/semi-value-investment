@@ -47,7 +47,7 @@ export const Home = memo(() => {
 
   const listRender = (title: string, list: IStockProfile[], extra?: ReactNode) => {
     return (
-      <div className="mb-8">
+      <div className="my-4">
         <div className="my-2 flex items-center gap-2">
           <div className="font-bold text-lg">{title}</div>
           {list.length ? (
@@ -82,20 +82,13 @@ export const Home = memo(() => {
     >
       <div className="px-6 w-full h-full overflow-auto">
         {listRender(
-          '未持有',
-          profileList.filter((item) => !ratingMap[item.id]),
-          <div className="ml-auto mt-2">
+          '买入',
+          profileList.filter((item) => ratingMap[item.id] === 5),
+          <div className="ml-auto my-2">
             <Button theme="solid" onClick={() => setRefreshCount((pre) => pre + 1)}>
               刷新数据
             </Button>
           </div>,
-        )}
-        <Divider margin={48} align="center">
-          以下是持仓数据
-        </Divider>
-        {listRender(
-          '买入',
-          profileList.filter((item) => ratingMap[item.id] === 5),
         )}
         {listRender(
           '增持',
@@ -112,6 +105,13 @@ export const Home = memo(() => {
         {listRender(
           '卖出',
           profileList.filter((item) => ratingMap[item.id] === 1),
+        )}
+        <Divider margin={48} align="center">
+          以下是未持有数据
+        </Divider>
+        {listRender(
+          '未持有',
+          profileList.filter((item) => !ratingMap[item.id]),
         )}
       </div>
     </Spin>
