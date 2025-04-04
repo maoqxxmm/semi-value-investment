@@ -15,7 +15,7 @@ export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineCh
     // 用 i 年的费用 / i+1 年的毛利润
     const dev = reports.slice(1).map((report, index) => ({
       year: report.year + 1,
-      type: '去年研发支出/毛利润',
+      type: '每单位毛利所需研发费用',
       value:
         (getNumberInReport(reports[index + 1], 'l-yffy-研发费用') /
           (getNumberInReport(reports[index], 'l-yyzsr-营业总收入') -
@@ -24,7 +24,7 @@ export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineCh
     }));
     const market = reports.slice(1).map((report, index) => ({
       year: report.year + 1,
-      type: '去年销售费用/毛利润',
+      type: '每单位毛利所需销售费用',
       value:
         (getNumberInReport(reports[index + 1], 'l-xsfy-销售费用') /
           (getNumberInReport(reports[index], 'l-yyzsr-营业总收入') -
@@ -33,7 +33,7 @@ export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineCh
     }));
     const capex = reports.slice(1).map((report, index) => ({
       year: report.year + 1,
-      type: '去年资本开支/毛利润',
+      type: '每单位毛利所需资本支出',
       value:
         (getNumberInReport(
           reports[index + 1],
