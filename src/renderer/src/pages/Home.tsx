@@ -49,7 +49,7 @@ export const Home = memo(() => {
     return (
       <div className="my-4">
         <div className="my-2 flex items-center gap-2">
-          <div className="font-bold text-lg">{title}</div>
+          <div className="font-bold text-lg text-semi-color-text-0">{title}</div>
           {list.length ? (
             <div className="text-semi-color-text-3 text-xs">共{list.length}条数据</div>
           ) : null}

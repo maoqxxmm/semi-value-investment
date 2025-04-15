@@ -211,7 +211,7 @@ export const StockDetail = memo(() => {
           </div>
           <div className="flex-1 overflow-auto px-8">
             <div className="w-full flex gap-2 items-center justify-between py-[2px]">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-semi-color-text-0">
                 <div>PE:</div>
                 <div>{((profile?.ttmPE || 0) / 100).toFixed(2)}</div>
                 <Divider layout="vertical" />
