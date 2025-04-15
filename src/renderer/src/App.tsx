@@ -7,6 +7,7 @@ import { Home, Settings, DataManage, FavManage } from '@renderer/pages';
 import { useInit } from '@renderer/hooks';
 import { NavFooter } from '@renderer/components/layout-components';
 import { currentStockDetailPagePropsAtom } from '@renderer/models';
+import './global.css';
 
 function App(): JSX.Element {
   const history = useHistory();
