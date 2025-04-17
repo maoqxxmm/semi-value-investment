@@ -17,6 +17,7 @@ import { currentStockDetailPagePropsAtom, stockProfileListAtom } from '@renderer
 import { favoriteStockIdSetAtom, updateFavoriteStockAtom } from '@renderer/models';
 
 const { InputNumber } = FormFromImport;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Form = FormFromImport as any;
 
 enum Field {
@@ -235,12 +236,12 @@ export const StockProfileTable = memo(() => {
               dataIndex: 'years',
               render: (cell: number) => `${cell.toFixed(0)} 年`,
             },
-            {
-              title: '缓存状态',
-              render: (_, record) => {
-                return null;
-              },
-            },
+            // {
+            //   title: '缓存状态',
+            //   render: () => {
+            //     return null;
+            //   },
+            // },
             {
               title: '操作',
               width: 200,

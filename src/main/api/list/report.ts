@@ -8,6 +8,7 @@ const DATES_EX_YEAR: Array<{ month: ReportMonth; str: string }> = [
   { month: 3, str: '-03-31' },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const genFinancialReport = (item: any): SingleFinancialReport => {
   const date = item['REPORT_DATE'];
   const [year, monthStr] = date.toString().split('-');
@@ -52,7 +53,7 @@ const getReportsRequest = async (params: getReportsRequestParams) => {
   const dates: string[] = [];
   if (months.includes(12)) {
     let year = Number(dayjs().format('YYYY'));
-    if (dayjs().unix() < dayjs(`${year}-4-31`).unix()) {
+    if (dayjs().unix() < dayjs(`${year}-3-31`).unix()) {
       year -= 2;
     } else {
       year -= 1;

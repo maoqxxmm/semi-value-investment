@@ -52,7 +52,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
           await Promise.all([
             safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_PROFILE, stockId),
             safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_SIX_YEAR_FINANCE_REPORTS, {
-              years: 6,
+              years: 7,
               stockId,
               months: [month],
             }),

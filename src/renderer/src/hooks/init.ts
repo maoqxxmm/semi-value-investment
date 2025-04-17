@@ -5,6 +5,7 @@ import { ApiType } from '@shared/types';
 import {
   favoriteStockIdListAtom,
   stockProfileListAtom,
+  updateblacklistAtom,
   updateRatingMapAtom,
   updateReviewMapAtom,
 } from '@renderer/models';
@@ -14,15 +15,21 @@ export const useInit = () => {
   const setProfileList = useSetAtom(stockProfileListAtom);
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
   const updateReviewMap = useSetAtom(updateReviewMapAtom);
+  const updateblacklist = useSetAtom(updateblacklistAtom);
 
   useMount(async () => {
     const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_RATING_MAP);
-    updateRatingMap(res);
+    updateRatingMap(res, true);
   });
 
   useMount(async () => {
     const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_REVIEW_MAP);
-    updateReviewMap(res);
+    updateReviewMap(res, true);
+  });
+
+  useMount(async () => {
+    const res = await safelyRequestByIpcWithErrorToast(ApiType.GET_BLACKLIST);
+    updateblacklist(res, true);
   });
 
   useMount(async () => {

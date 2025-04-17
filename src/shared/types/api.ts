@@ -40,11 +40,17 @@ export enum ApiType {
   /** 获取评分 map 数据 */
   GET_RATING_MAP = 'get-rating-map',
 
-  /** 获取评论 map 数据 */
-  GET_REVIEW_MAP = 'get-review-map',
-
   /** 更新评分 map 数据 */
   UPDATE_RATING_MAP = 'update-rating-map',
+
+  /** 获取股票黑名单数据 */
+  GET_BLACKLIST = 'get-black-list',
+
+  /** 更新股票黑名单数据 */
+  UPDATE_BLACKLIST = 'update-black-list',
+
+  /** 获取评论 map 数据 */
+  GET_REVIEW_MAP = 'get-review-map',
 
   /** 更新评论 map 数据 */
   UPDATE_REVIEW_MAP = 'update-review-map',
@@ -119,6 +125,7 @@ export enum ApiType {
 export interface ApiRequestPamrasMap {
   [ApiType.UPDATE_RATING_MAP]: Record<string, number>;
   [ApiType.UPDATE_REVIEW_MAP]: Record<string, string | undefined>;
+  [ApiType.UPDATE_BLACKLIST]: string[];
   [ApiType.UPDATE_FAVORITE_STOCK_ID_LIST]: string[];
   [ApiType.UPDATE_DATA_DIRECTORY]: string;
   [ApiType.GET_STOCK_PROFILE]: string;
@@ -157,6 +164,7 @@ export interface ApiRequestPamrasMap {
 export interface ApiRequestReturnMap {
   [ApiType.GET_RATING_MAP]: Record<string, number>;
   [ApiType.GET_REVIEW_MAP]: Record<string, string | undefined>;
+  [ApiType.GET_BLACKLIST]: string[];
   [ApiType.GET_FAVORITE_STOCK_ID_LIST]: string[];
   [ApiType.GET_STOCK_PROFILE]: IStockProfile;
   [ApiType.GET_STOCK_PROFILE_LIST_IN_CACHE]: IStockProfile[] | undefined;

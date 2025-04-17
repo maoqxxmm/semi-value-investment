@@ -18,4 +18,7 @@ export enum FileName {
 
   /** 评论 */
   REVIEW = 'review',
+
+  /** 黑名单列表 */
+  BLACKLIST = 'black-list',
 }

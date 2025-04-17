@@ -10,10 +10,12 @@ import { DEFAULT_FILTER_DATA } from '@shared/constants';
 const store = new Store({});
 
 export const getMetaData = <T extends keyof MetaDataType>(key: T) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (store as any).get(key) as MetaDataType[T] | undefined;
 };
 
 export const setMetaData = <T extends keyof MetaDataType>(key: T, data: MetaDataType[T]) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (store as any).set(key, data);
   return undefined;
 };
@@ -36,23 +38,15 @@ const apiMap: Pick<
   | ApiType.GET_FILTER_DATA
   | ApiType.UPDATE_FILTER_DATA
   | ApiType.GET_RATING_MAP
-  | ApiType.GET_REVIEW_MAP
   | ApiType.UPDATE_RATING_MAP
+  | ApiType.GET_REVIEW_MAP
   | ApiType.UPDATE_REVIEW_MAP
+  | ApiType.GET_BLACKLIST
+  | ApiType.UPDATE_BLACKLIST
 > = {
   [ApiType.GET_RATING_MAP]: async () => {
     const dir = assertDataDirectoryIsSelected();
     const filepath = path.join(dir, DataDirecotry.BASE, FileName.RATING);
-    if (fs.existsSync(filepath)) {
-      const res = await getFileText(filepath);
-      return JSON.parse(res);
-    } else {
-      return {};
-    }
-  },
-  [ApiType.GET_REVIEW_MAP]: async () => {
-    const dir = assertDataDirectoryIsSelected();
-    const filepath = path.join(dir, DataDirecotry.BASE, FileName.REVIEW);
     if (fs.existsSync(filepath)) {
       const res = await getFileText(filepath);
       return JSON.parse(res);
@@ -67,11 +61,38 @@ const apiMap: Pick<
       JSON.stringify(ratingMap),
     );
   },
+  [ApiType.GET_REVIEW_MAP]: async () => {
+    const dir = assertDataDirectoryIsSelected();
+    const filepath = path.join(dir, DataDirecotry.BASE, FileName.REVIEW);
+    if (fs.existsSync(filepath)) {
+      const res = await getFileText(filepath);
+      return JSON.parse(res);
+    } else {
+      return {};
+    }
+  },
   [ApiType.UPDATE_REVIEW_MAP]: async (reviewMap) => {
     await writeFileText(
       path.join(assertDataDirectoryIsSelected(), DataDirecotry.BASE),
       FileName.REVIEW,
       JSON.stringify(reviewMap),
+    );
+  },
+  [ApiType.GET_BLACKLIST]: async () => {
+    const dir = assertDataDirectoryIsSelected();
+    const filepath = path.join(dir, DataDirecotry.BASE, FileName.BLACKLIST);
+    if (fs.existsSync(filepath)) {
+      const res = await getFileText(filepath);
+      return JSON.parse(res);
+    } else {
+      return [];
+    }
+  },
+  [ApiType.UPDATE_BLACKLIST]: async (list) => {
+    await writeFileText(
+      path.join(assertDataDirectoryIsSelected(), DataDirecotry.BASE),
+      FileName.BLACKLIST,
+      JSON.stringify(list),
     );
   },
   [ApiType.GET_FAVORITE_STOCK_ID_LIST]: async () => {

@@ -6,7 +6,12 @@ import { IconSun, IconMoon, IconSync, IconGallery, IconCalendar } from '@douyinf
 import { ReportMonth } from '@shared/types';
 import { ThemeType } from '@renderer/types';
 import { useTheme } from '@renderer/hooks';
-import { currentStockDetailPagePropsAtom, monthAtom, stockProfileListAtom } from '@renderer/models';
+import {
+  blacklistAtom,
+  currentStockDetailPagePropsAtom,
+  monthAtom,
+  stockProfileListAtom,
+} from '@renderer/models';
 import { StockDetail } from '@renderer/components/StockDetail';
 import { SearchStock } from '@renderer/components/SearchStock';
 
@@ -14,8 +19,10 @@ const monthList: ReportMonth[] = [3, 6, 9, 12];
 
 export const NavFooter = memo(() => {
   const { theme, onThemeChange } = useTheme();
+  const blacklist = useAtomValue(blacklistAtom);
   const profileList = useAtomValue(stockProfileListAtom);
   const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
+
   const [month, setMonth] = useAtom(monthAtom);
   const [searchVisible, setSearchVisible] = useState(false);
   const [monthMenuVisible, setMonthMenuVisible] = useState(false);
@@ -31,7 +38,10 @@ export const NavFooter = memo(() => {
       Toast.warning({ content: '数据请求中，请稍后...' });
       return;
     }
-    const item = profileList.slice().sort(() => Math.random() - 0.5)[0];
+    const blacklistSet = new Set(blacklist);
+    const item = profileList
+      .filter((item) => !blacklistSet.has(item.id))
+      .sort(() => Math.random() - 0.5)[0];
     setCurrent({ stockId: item.id, list: undefined });
   });
 

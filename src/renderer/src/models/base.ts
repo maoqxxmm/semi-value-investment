@@ -45,17 +45,31 @@ export const updateFavoriteStockAtom = atom(
 
 export const ratingMapAtom = atom<Record<string, number>>({});
 export const reviewMapAtom = atom<Record<string, string | undefined>>({});
+export const blacklistAtom = atom<string[]>([]);
 export const updateRatingMapAtom = atom(
   undefined,
-  async (_, set, ratingMap: Record<string, number>) => {
+  async (_, set, ratingMap: Record<string, number>, noWrite?: boolean) => {
     set(ratingMapAtom, ratingMap);
-    await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_RATING_MAP, ratingMap);
+    if (!noWrite) {
+      await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_RATING_MAP, ratingMap);
+    }
   },
 );
 export const updateReviewMapAtom = atom(
   undefined,
-  async (_, set, reviewMap: Record<string, string | undefined>) => {
+  async (_, set, reviewMap: Record<string, string | undefined>, noWrite?: boolean) => {
     set(reviewMapAtom, reviewMap);
-    await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_REVIEW_MAP, reviewMap);
+    if (!noWrite) {
+      await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_REVIEW_MAP, reviewMap);
+    }
+  },
+);
+export const updateblacklistAtom = atom(
+  undefined,
+  async (_, set, list: string[], noWrite?: boolean) => {
+    set(blacklistAtom, list);
+    if (!noWrite) {
+      await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_BLACKLIST, list);
+    }
   },
 );

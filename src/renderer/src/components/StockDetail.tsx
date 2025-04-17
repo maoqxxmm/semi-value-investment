@@ -30,24 +30,29 @@ import { ResearchReportListCard } from '@renderer/components/ResearchReportListC
 import { BizResearchReportListCard } from '@renderer/components/BizResearchReportListCard';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import {
+  blacklistAtom,
   currentStockDetailPagePropsAtom,
   favoriteStockIdSetAtom,
   monthAtom,
   ratingMapAtom,
   reviewMapAtom,
   stockProfileListAtom,
+  updateblacklistAtom,
   updateFavoriteStockAtom,
   updateRatingMapAtom,
   updateReviewMapAtom,
 } from '@renderer/models';
 import { ACCOUNT_ITEM, BalanceSheetType, TOTAL_KEY_IN_BALANCE_SHEET } from '@shared/constants';
 import { useStockDetailData } from '@renderer/hooks';
+import { useMemoizedFn } from 'ahooks';
 
 export const StockDetail = memo(() => {
   const ratingMap = useAtomValue(ratingMapAtom);
   const reviewMap = useAtomValue(reviewMapAtom);
+  const blacklist = useAtomValue(blacklistAtom);
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
   const updateReviewMap = useSetAtom(updateReviewMapAtom);
+  const updateblacklist = useSetAtom(updateblacklistAtom);
   const favSet = useAtomValue(favoriteStockIdSetAtom);
   const profileList = useAtomValue(stockProfileListAtom);
   const month = useAtomValue(monthAtom);
@@ -108,6 +113,14 @@ export const StockDetail = memo(() => {
     const length = Math.ceil(max).toString().length - 2;
     return Math.round(Number(`${first + (second >= 10 ? 1 : 0)}${second}${'0'.repeat(length)}`));
   }, [reports]);
+
+  const onToggleblacklist = useMemoizedFn((id: string) => {
+    if (blacklist.includes(id)) {
+      updateblacklist(blacklist.filter((item) => item !== id));
+    } else {
+      updateblacklist([...blacklist, id]);
+    }
+  });
 
   if (!current?.stockId) {
     return null;
@@ -255,6 +268,9 @@ export const StockDetail = memo(() => {
                 </Button>
                 <Button onClick={() => updateFav(current.stockId, 'toggle')}>
                   {favSet.has(current.stockId) ? '取消收藏' : '收藏'}
+                </Button>
+                <Button onClick={() => onToggleblacklist(current.stockId)}>
+                  {blacklist.includes(current.stockId) ? '取消拉黑' : '拉黑'}
                 </Button>
               </div>
             </div>
