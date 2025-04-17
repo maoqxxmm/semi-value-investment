@@ -6,8 +6,9 @@ interface LoadFailProps {
   onReload: () => Promise<void> | void;
 }
 
-export const LoadFail = memo<LoadFailProps>((props) => {
+export const LoadFail = memo((props: LoadFailProps) => {
   const { onReload } = props;
+
   return (
     <Empty
       image={<IllustrationFailure style={{ width: 150, height: 150 }} />}
@@ -20,3 +21,5 @@ export const LoadFail = memo<LoadFailProps>((props) => {
     </Empty>
   );
 });
+
+LoadFail.displayName = 'LoadFail';

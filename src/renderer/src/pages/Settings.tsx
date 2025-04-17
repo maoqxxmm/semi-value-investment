@@ -27,7 +27,6 @@ export const Settings = memo(() => {
           onClick={async () => {
             const res = await safelyRequestByIpcWithErrorToast(
               ApiType.GET_DATA_DIRECTORY_BY_SYSTEM_FILE_SELECTOR,
-              {},
             );
             await safelyRequestByIpcWithErrorToast(ApiType.UPDATE_DATA_DIRECTORY, res);
             setDir(res);
@@ -48,3 +47,5 @@ export const Settings = memo(() => {
     </div>
   );
 });
+
+Settings.displayName = 'Settings';

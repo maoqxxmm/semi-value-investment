@@ -103,6 +103,7 @@ export const StockProfileTable = memo(() => {
       const values = formApiRef.current?.getValues();
       if (values) {
         const filters = transformFormDataToFilterData(values);
+        safelyRequestByIpcWithErrorToast(ApiType.UPDATE_FILTER_DATA, filters);
         const res = await safelyRequestByIpcWithErrorToast(
           ApiType.GET_STOCK_PROFILE_LIST_BY_FILTER,
           filters,

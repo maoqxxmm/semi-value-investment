@@ -1,6 +1,7 @@
 import { memo, useMemo } from 'react';
 import { Card } from '@douyinfe/semi-ui';
 import { PieChart } from '@visactor/react-vchart';
+import { useTheme } from '@renderer/hooks';
 import { BizItem } from '@shared/types';
 
 interface BizPieChartProps {
@@ -9,6 +10,8 @@ interface BizPieChartProps {
 
 export const BizPieChart = memo((props: BizPieChartProps) => {
   const { bizItems } = props;
+
+  const { theme } = useTheme();
 
   const sortedBizItems = useMemo(() => {
     const years = [...new Set(bizItems.map((item) => item.year))].sort((a, b) => b - a).slice(0, 1);
@@ -54,6 +57,7 @@ export const BizPieChart = memo((props: BizPieChartProps) => {
           },
           state: {
             hover: null,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any,
         },
         label: {
@@ -70,13 +74,13 @@ export const BizPieChart = memo((props: BizPieChartProps) => {
                 {
                   text: data?.gpr ? `毛利率 ${(data.gpr * 100).toFixed(2)}%\n` : '毛利率 --\n',
                   fontSize: 11,
-                  fill: '#00000044',
+                  fill: theme === 'dark' ? '#ffffff66' : '#00000044',
                   fontWeight: '500',
                 },
                 {
                   text: data?.ratio ? `占比 ${(data.ratio * 100).toFixed(2)}%` : '占比 --',
                   fontSize: 11,
-                  fill: '#00000044',
+                  fill: theme === 'dark' ? '#ffffff66' : '#00000044',
                   fontWeight: '500',
                 },
               ],

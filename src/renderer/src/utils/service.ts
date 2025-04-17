@@ -12,9 +12,12 @@ export const requestByIpc = async <T extends ApiType>(
   ...args: T extends keyof ApiRequestPamrasMap
     ? [type: T, params: ApiRequestPamrasMap[T]]
     : [type: T]
-): Promise<ApiRequestBaseReturn<unknown>> => {
+) => {
   const [type, params] = args;
-  return await window.electron.ipcRenderer.invoke(type, params);
+  const res = await window.electron.ipcRenderer.invoke(type, params);
+  return res as ApiRequestBaseReturn<
+    T extends keyof ApiRequestReturnMap ? ApiRequestReturnMap[T] : undefined
+  >;
 };
 
 let dataDirectoryNotSelectedToast = false;
