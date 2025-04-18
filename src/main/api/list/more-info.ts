@@ -21,7 +21,7 @@ const apiMap: Pick<
   | ApiType.GET_MANAGER_HOLDING_CHANGE
   | ApiType.GET_REPORT_ORIGIN_INFO
   | ApiType.GET_PDF_URL
-  | ApiType.GET_RESEARCH_REPORT_PDF_URL
+  | ApiType.GET_RESEARCH_REPORT_PDF
   | ApiType.GET_RESEARCH_REPORT_LIST
   | ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST
 > = {
@@ -153,14 +153,14 @@ const apiMap: Pick<
     });
     return makeSureIsArray<ResearchReportItem>(res?.data?.list);
   },
-  [ApiType.GET_RESEARCH_REPORT_PDF_URL]: async (article) => {
+  [ApiType.GET_RESEARCH_REPORT_PDF]: async (article) => {
     const url = 'https://np-creport-pc.eastmoney.com/api/content/rep';
     const res = await axiosGet(url, {
       art_code: `${article}`,
       client_source: 'web',
       page_index: '1',
     });
-    return res.data.attach_url;
+    return res.data;
   },
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: async (bizId) => {
     const url = 'https://np-areport-pc.eastmoney.com/api/security/rep';

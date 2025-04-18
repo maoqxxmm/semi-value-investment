@@ -226,4 +226,13 @@ export interface ResearchReportItem {
 
   /** 文档标题英文 */
   title_en: string;
+
+  /** 发布时间 */
+  publish_time: string;
+}
+
+/** 附件信息 */
+export interface AttaceInfo {
+  attach_url: string;
+  attach_pages: number;
 }

@@ -1,5 +1,6 @@
 import { KdjAndRsiResult, KLineItem, KLineType } from './klines';
 import {
+  AttaceInfo,
   BizItem,
   DividendItem,
   IStockId,
@@ -113,7 +114,7 @@ export enum ApiType {
   GET_PDF_URL = 'get-pdf-url',
 
   /** 获取研报内容 */
-  GET_RESEARCH_REPORT_PDF_URL = 'get-research-report-pdf-url',
+  GET_RESEARCH_REPORT_PDF = 'get-research-report-pdf',
 
   /** 获取研报列表 */
   GET_RESEARCH_REPORT_LIST = 'get-research-report-list',
@@ -156,7 +157,7 @@ export interface ApiRequestPamrasMap {
   [ApiType.GET_MANAGER_HOLDING_CHANGE]: IStockId;
   [ApiType.GET_REPORT_ORIGIN_INFO]: IStockId;
   [ApiType.GET_PDF_URL]: string;
-  [ApiType.GET_RESEARCH_REPORT_PDF_URL]: string;
+  [ApiType.GET_RESEARCH_REPORT_PDF]: string;
   [ApiType.GET_RESEARCH_REPORT_LIST]: string;
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: string;
 }
@@ -184,7 +185,7 @@ export interface ApiRequestReturnMap {
   [ApiType.GET_MANAGER_HOLDING_CHANGE]: ManagerHoldingChangeItem[];
   [ApiType.GET_REPORT_ORIGIN_INFO]: ReportOriginItem[];
   [ApiType.GET_PDF_URL]: string;
-  [ApiType.GET_RESEARCH_REPORT_PDF_URL]: string;
+  [ApiType.GET_RESEARCH_REPORT_PDF]: AttaceInfo;
   [ApiType.GET_RESEARCH_REPORT_LIST]: ResearchReportItem[];
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: ResearchReportItem[];
 }

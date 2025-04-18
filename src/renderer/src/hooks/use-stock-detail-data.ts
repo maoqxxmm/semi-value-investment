@@ -75,13 +75,15 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
             safelyRequestByIpcWithErrorToast(ApiType.GET_REPORT_ORIGIN_INFO, stockId),
             safelyRequestByIpcWithErrorToast(ApiType.GET_RESEARCH_REPORT_LIST, stockId),
           ]);
-        if (didCancel) {
-          return;
-        }
-        const bizResaerches = await safelyRequestByIpcWithErrorToast(
+        const bizResearchs = await safelyRequestByIpcWithErrorToast(
           ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST,
           pf.bizId,
         );
+        if (didCancel) {
+          return;
+        }
+        console.log('researchs', researchs);
+        console.log('bizResearchs', bizResearchs);
         setProfile(pf);
         setReports(reports);
         setBaseInfo(infoList[0]);
@@ -93,7 +95,7 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
         setManagerHoldingChangeItems(holdings);
         setReportOriginItems(origins);
         setResearchReportItems(researchs);
-        setBizResearchReportItems(bizResaerches);
+        setBizResearchReportItems(bizResearchs);
       } finally {
         setLoading(false);
       }
