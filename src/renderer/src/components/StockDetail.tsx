@@ -45,6 +45,7 @@ import {
 import { ACCOUNT_ITEM, BalanceSheetType, TOTAL_KEY_IN_BALANCE_SHEET } from '@shared/constants';
 import { useStockDetailData } from '@renderer/hooks';
 import { useMemoizedFn } from 'ahooks';
+import { formatFinancialNumber } from '@renderer/utils';
 
 export const StockDetail = memo(() => {
   const ratingMap = useAtomValue(ratingMapAtom);
@@ -227,6 +228,8 @@ export const StockDetail = memo(() => {
               <div className="flex items-center gap-2 text-semi-color-text-0">
                 <div>PE:</div>
                 <div>{((profile?.ttmPE || 0) / 100).toFixed(2)}</div>
+                <div>市值:</div>
+                <div>{formatFinancialNumber(profile?.totalMarketCap)}</div>
                 <Divider layout="vertical" />
                 <div>评分:</div>
                 <Rating
