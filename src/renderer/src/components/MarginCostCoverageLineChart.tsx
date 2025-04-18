@@ -84,7 +84,7 @@ export const MarginCostCoverageLineChart = memo((props: MarginCostCoverageLineCh
           visible: true,
           dimension: {
             title: {
-              value: (datum) => datum?.date,
+              value: (datum) => datum?.year,
             },
             content: [
               {

@@ -24,7 +24,7 @@ export const ReceivableCollectionCapacityLineChart = memo(
         value: getNumberInReport(report, 'leading-chzzts-存货周转天数'),
       }));
       return [...i, ...s].sort((a, b) => a.year - b.year);
-    }, []);
+    }, [reports]);
 
     return (
       <VChart
