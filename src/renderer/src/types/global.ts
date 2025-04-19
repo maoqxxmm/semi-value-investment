@@ -1,6 +1,9 @@
 export type ThemeType = 'auto' | 'light' | 'dark';
 
 export enum RouterKey {
+  /** 阅读笔记 */
+  NOTES = '/notes',
+
   /** 首页 */
   HOME = '/home',
 

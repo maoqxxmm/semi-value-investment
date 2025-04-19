@@ -236,3 +236,12 @@ export interface AttaceInfo {
   attach_url: string;
   attach_pages: number;
 }
+
+/** 读书笔记 */
+export interface NoteItem {
+  /** 笔记标题 */
+  title: string;
+
+  /** 笔记内容 */
+  content: string;
+}

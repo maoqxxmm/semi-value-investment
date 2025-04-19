@@ -43,7 +43,20 @@ const apiMap: Pick<
   | ApiType.UPDATE_REVIEW_MAP
   | ApiType.GET_BLACKLIST
   | ApiType.UPDATE_BLACKLIST
+  | ApiType.GET_RANDOM_NOTE_TEXT
 > = {
+  [ApiType.GET_RANDOM_NOTE_TEXT]: async () => {
+    const dir = assertDataDirectoryIsSelected();
+    const parentPath = path.join(dir, DataDirecotry.NOTES);
+    const files = fs.readdirSync(parentPath);
+    const randomFile = files[Math.floor(Math.random() * files.length)];
+    const filepath = path.join(parentPath, randomFile);
+    const res = await getFileText(filepath);
+    return {
+      title: randomFile.split('_').slice(0, -1).join('_'),
+      content: res,
+    };
+  },
   [ApiType.GET_RATING_MAP]: async () => {
     const dir = assertDataDirectoryIsSelected();
     const filepath = path.join(dir, DataDirecotry.BASE, FileName.RATING);

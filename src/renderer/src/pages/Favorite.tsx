@@ -10,7 +10,7 @@ import { ApiType, IStockProfile } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
 import { StockProfileCard } from '@renderer/components/StockProfileCard';
 
-export const Home = memo(() => {
+export const Favorite = memo(() => {
   const favList = useAtomValue(favoriteStockIdListAtom);
   const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
   const ratingMap = useAtomValue(ratingMapAtom);
@@ -118,4 +118,4 @@ export const Home = memo(() => {
   );
 });
 
-Home.displayName = 'Home';
+Favorite.displayName = 'Home';

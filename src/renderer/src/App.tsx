@@ -1,9 +1,9 @@
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import { useSetAtom } from 'jotai';
 import { Nav } from '@douyinfe/semi-ui';
-import { IconIntro, IconConfig, IconList, IconHeart } from '@douyinfe/semi-icons-lab';
+import { IconHighlight, IconConfig, IconList, IconHeart } from '@douyinfe/semi-icons-lab';
 import { RouterKey } from '@renderer/types';
-import { Home, Settings, DataManage, FavManage } from '@renderer/pages';
+import { Favorite, Settings, DataManage, Notes } from '@renderer/pages';
 import { useInit } from '@renderer/hooks';
 import { NavFooter } from '@renderer/components/layout-components';
 import { currentStockDetailPagePropsAtom } from '@renderer/models';
@@ -29,8 +29,8 @@ function App(): JSX.Element {
               setCurrentProps(undefined);
             }}
             items={[
-              { itemKey: RouterKey.HOME, text: '主页', icon: <IconIntro /> },
               { itemKey: RouterKey.FAV_MANAGE, text: '收藏管理', icon: <IconHeart /> },
+              { itemKey: RouterKey.NOTES, text: '阅读笔记', icon: <IconHighlight /> },
               { itemKey: RouterKey.DATA_MANAGE, text: '数据管理', icon: <IconList /> },
               { itemKey: RouterKey.SETTINGS, text: '设置', icon: <IconConfig /> },
             ]}
@@ -39,12 +39,12 @@ function App(): JSX.Element {
         </div>
         <div className="flex-1 overflow-hidden">
           <Switch>
-            <Route exact path={RouterKey.HOME} component={Home} />
-            <Route exact path={RouterKey.FAV_MANAGE} component={FavManage} />
+            <Route exact path={RouterKey.FAV_MANAGE} component={Favorite} />
+            <Route exact path={RouterKey.NOTES} component={Notes} />
             <Route exact path={RouterKey.DATA_MANAGE} component={DataManage} />
             <Route exact path={RouterKey.SETTINGS} component={Settings} />
             <Route path="">
-              <Redirect to={RouterKey.HOME} />
+              <Redirect to={RouterKey.FAV_MANAGE} />
             </Route>
           </Switch>
         </div>

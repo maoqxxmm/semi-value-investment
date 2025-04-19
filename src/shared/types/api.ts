@@ -8,6 +8,7 @@ import {
   IStockSearchItem,
   ManagerHoldingChangeItem,
   ManagerItem,
+  NoteItem,
   ReportMonth,
   ReportOriginItem,
   ResearchReportItem,
@@ -121,6 +122,9 @@ export enum ApiType {
 
   /** 获取行业研报列表 */
   GET_BUSINESSS_RESEARCH_REPORT_LIST = 'get-businesss-research-report-list',
+
+  /** 随机获取一篇阅读笔记内容 */
+  GET_RANDOM_NOTE_TEXT = 'get-random-note-test',
 }
 
 export interface ApiRequestPamrasMap {
@@ -188,6 +192,7 @@ export interface ApiRequestReturnMap {
   [ApiType.GET_RESEARCH_REPORT_PDF]: AttaceInfo;
   [ApiType.GET_RESEARCH_REPORT_LIST]: ResearchReportItem[];
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: ResearchReportItem[];
+  [ApiType.GET_RANDOM_NOTE_TEXT]: NoteItem;
 }
 
 export interface ApiRequestBaseReturn<T> {
