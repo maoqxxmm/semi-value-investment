@@ -109,6 +109,7 @@ export const StockProfileTable = memo(() => {
           filters,
         );
         setProfileList(res);
+        safelyRequestByIpcWithErrorToast(ApiType.UPDATE_STOCK_PROFILE_LIST_BY_FILTER, res);
       }
     } finally {
       setLoading(false);

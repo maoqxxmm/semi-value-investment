@@ -237,6 +237,21 @@ export interface AttaceInfo {
   attach_pages: number;
 }
 
+/** 缓存的个股或行业研究报告 */
+export interface ResearchReportCacheItem extends ResearchReportItem {
+  /** 打开过 */
+  hasOpend?: boolean;
+
+  /** 喜欢 */
+  like?: boolean;
+
+  /** 页数 */
+  pageCount?: number;
+
+  /** 前缀（个股名称/行业） */
+  prefix?: string;
+}
+
 /** 读书笔记 */
 export interface NoteItem {
   /** 笔记标题 */

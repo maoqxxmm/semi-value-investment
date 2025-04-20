@@ -82,8 +82,6 @@ export const useStockDetailData = (params: UseStockDetailDataParams) => {
         if (didCancel) {
           return;
         }
-        console.log('researchs', researchs);
-        console.log('bizResearchs', bizResearchs);
         setProfile(pf);
         setReports(reports);
         setBaseInfo(infoList[0]);
