@@ -1,9 +1,15 @@
 import { Route, Switch, Redirect, useLocation, useHistory } from 'react-router-dom';
 import { useSetAtom } from 'jotai';
 import { Nav } from '@douyinfe/semi-ui';
-import { IconHighlight, IconConfig, IconList, IconHeart } from '@douyinfe/semi-icons-lab';
+import {
+  IconHighlight,
+  IconConfig,
+  IconList,
+  IconHeart,
+  IconTypography,
+} from '@douyinfe/semi-icons-lab';
 import { RouterKey } from '@renderer/types';
-import { Favorite, Settings, DataManage, Notes } from '@renderer/pages';
+import { Favorite, Settings, DataManage, Notes, Report } from '@renderer/pages';
 import { useInit } from '@renderer/hooks';
 import { NavFooter } from '@renderer/components/layout-components';
 import { currentStockDetailPagePropsAtom } from '@renderer/models';
@@ -31,6 +37,7 @@ function App(): JSX.Element {
             items={[
               { itemKey: RouterKey.FAV_MANAGE, text: '收藏管理', icon: <IconHeart /> },
               { itemKey: RouterKey.NOTES, text: '阅读笔记', icon: <IconHighlight /> },
+              { itemKey: RouterKey.RESEARCH_REPORT, text: '研究报告', icon: <IconTypography /> },
               { itemKey: RouterKey.DATA_MANAGE, text: '数据管理', icon: <IconList /> },
               { itemKey: RouterKey.SETTINGS, text: '设置', icon: <IconConfig /> },
             ]}
@@ -41,6 +48,7 @@ function App(): JSX.Element {
           <Switch>
             <Route exact path={RouterKey.FAV_MANAGE} component={Favorite} />
             <Route exact path={RouterKey.NOTES} component={Notes} />
+            <Route exact path={RouterKey.RESEARCH_REPORT} component={Report} />
             <Route exact path={RouterKey.DATA_MANAGE} component={DataManage} />
             <Route exact path={RouterKey.SETTINGS} component={Settings} />
             <Route path="">

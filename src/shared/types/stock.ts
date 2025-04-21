@@ -250,6 +250,12 @@ export interface ResearchReportCacheItem extends ResearchReportItem {
 
   /** 前缀（个股名称/行业） */
   prefix?: string;
+
+  /** 个股代码 */
+  stockId?: string;
+
+  /** 附件地址 */
+  attach_url?: string;
 }
 
 /** 读书笔记 */

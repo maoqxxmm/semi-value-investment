@@ -14,6 +14,7 @@ import {
   ResearchReportItem,
   SingleFinancialReport,
   StockFileter,
+  ResearchReportCacheItem,
 } from './stock';
 
 export enum MetaDataKey {
@@ -125,6 +126,12 @@ export enum ApiType {
 
   /** 随机获取一篇阅读笔记内容 */
   GET_RANDOM_NOTE_TEXT = 'get-random-note-test',
+
+  /** 获取缓存的研报列表 */
+  GET_CACHED_RESEARCH_REPORT_LIST = 'get-cached-research-report-list',
+
+  /** 更新缓存的研报列表 */
+  UPDATE_CACHED_RESEARCH_REPORT_LIST = 'update-cached-research-report-list',
 }
 
 export interface ApiRequestPamrasMap {
@@ -164,6 +171,14 @@ export interface ApiRequestPamrasMap {
   [ApiType.GET_RESEARCH_REPORT_PDF]: string;
   [ApiType.GET_RESEARCH_REPORT_LIST]: string;
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: string;
+  [ApiType.GET_CACHED_RESEARCH_REPORT_LIST]: 'industry' | 'stock';
+  [ApiType.UPDATE_CACHED_RESEARCH_REPORT_LIST]: {
+    /** 类型：行业、个股 */
+    type: 'industry' | 'stock';
+
+    /** 研报列表 */
+    list: ResearchReportCacheItem[];
+  };
 }
 
 export interface ApiRequestReturnMap {
@@ -193,6 +208,7 @@ export interface ApiRequestReturnMap {
   [ApiType.GET_RESEARCH_REPORT_LIST]: ResearchReportItem[];
   [ApiType.GET_BUSINESSS_RESEARCH_REPORT_LIST]: ResearchReportItem[];
   [ApiType.GET_RANDOM_NOTE_TEXT]: NoteItem;
+  [ApiType.GET_CACHED_RESEARCH_REPORT_LIST]: ResearchReportCacheItem[];
 }
 
 export interface ApiRequestBaseReturn<T> {

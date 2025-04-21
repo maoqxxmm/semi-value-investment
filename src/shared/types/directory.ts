@@ -2,6 +2,9 @@ export enum DataDirecotry {
   /** 缓存的基础信息 */
   PROFILE_LIST_CACHE = 'cache/profile',
 
+  /** 缓存的研究报告 */
+  RESEARCH_REPORT_CACHE = 'cache/research-report',
+
   /** 基础数据 */
   BASE = 'base',
 
@@ -24,4 +27,10 @@ export enum FileName {
 
   /** 黑名单列表 */
   BLACKLIST = 'black-list.json',
+
+  /** 个股研报列表 */
+  STOCK_RESEARCH_REPORT_LIST = 'stock-research-report-list.json',
+
+  /** 行业研报列表 */
+  INDUSTRY_RESEARCH_REPORT_LIST = 'industry-research-report-list.json',
 }

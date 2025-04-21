@@ -13,6 +13,9 @@ export enum RouterKey {
   /** 收藏管理 */
   FAV_MANAGE = '/fav-manage',
 
+  /** 研究报告  */
+  RESEARCH_REPORT = '/research-report',
+
   /** 设置 */
   SETTINGS = '/settings',
 }

@@ -30,6 +30,9 @@ export const assertDataDirectoryIsSelected = () => {
 
 const apiMap: Pick<
   ApiFuncMap,
+  | ApiType.GET_CACHED_RESEARCH_REPORT_LIST
+  | ApiType.UPDATE_CACHED_RESEARCH_REPORT_LIST
+  | ApiType.GET_RANDOM_NOTE_TEXT
   | ApiType.GET_FAVORITE_STOCK_ID_LIST
   | ApiType.UPDATE_FAVORITE_STOCK_ID_LIST
   | ApiType.GET_DATA_DIRECTORY_BY_SYSTEM_FILE_SELECTOR
@@ -43,8 +46,32 @@ const apiMap: Pick<
   | ApiType.UPDATE_REVIEW_MAP
   | ApiType.GET_BLACKLIST
   | ApiType.UPDATE_BLACKLIST
-  | ApiType.GET_RANDOM_NOTE_TEXT
 > = {
+  [ApiType.GET_CACHED_RESEARCH_REPORT_LIST]: async (type) => {
+    const dir = assertDataDirectoryIsSelected();
+    const filepath = path.join(
+      dir,
+      DataDirecotry.RESEARCH_REPORT_CACHE,
+      type === 'industry'
+        ? FileName.INDUSTRY_RESEARCH_REPORT_LIST
+        : FileName.STOCK_RESEARCH_REPORT_LIST,
+    );
+    if (fs.existsSync(filepath)) {
+      const res = await getFileText(filepath);
+      return JSON.parse(res);
+    } else {
+      return [];
+    }
+  },
+  [ApiType.UPDATE_CACHED_RESEARCH_REPORT_LIST]: async ({ type, list }) => {
+    await writeFileText(
+      path.join(assertDataDirectoryIsSelected(), DataDirecotry.RESEARCH_REPORT_CACHE),
+      type === 'industry'
+        ? FileName.INDUSTRY_RESEARCH_REPORT_LIST
+        : FileName.STOCK_RESEARCH_REPORT_LIST,
+      JSON.stringify(list),
+    );
+  },
   [ApiType.GET_RANDOM_NOTE_TEXT]: async () => {
     const dir = assertDataDirectoryIsSelected();
     const parentPath = path.join(dir, DataDirecotry.NOTES);

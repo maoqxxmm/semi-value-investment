@@ -1,4 +1,4 @@
-import { memo, ReactNode, useEffect, useState } from 'react';
+import { memo, ReactNode, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { Spin, Divider, Button } from '@douyinfe/semi-ui';
 import {
@@ -6,8 +6,8 @@ import {
   favoriteStockIdListAtom,
   ratingMapAtom,
 } from '@renderer/models';
-import { ApiType, IStockProfile } from '@shared/types';
-import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
+import { IStockProfile } from '@shared/types';
+import { useFavStockProfileList } from '@renderer/hooks';
 import { StockProfileCard } from '@renderer/components/StockProfileCard';
 
 export const Favorite = memo(() => {
@@ -16,34 +16,8 @@ export const Favorite = memo(() => {
   const ratingMap = useAtomValue(ratingMapAtom);
 
   const [refreshCount, setRefreshCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [profileList, setProfileList] = useState<IStockProfile[]>([]);
 
-  useEffect(() => {
-    if (!favList) {
-      return;
-    }
-    let didCancel = false;
-    (async () => {
-      try {
-        setLoading(true);
-        const res = await Promise.all(
-          favList.map(
-            async (stockId) =>
-              await safelyRequestByIpcWithErrorToast(ApiType.GET_STOCK_PROFILE, stockId),
-          ),
-        );
-        if (!didCancel) {
-          setProfileList(res);
-        }
-      } finally {
-        setLoading(false);
-      }
-    })();
-    return () => {
-      didCancel = true;
-    };
-  }, [favList]);
+  const { profileList } = useFavStockProfileList();
 
   const listRender = (title: string, list: IStockProfile[], extra?: ReactNode) => {
     return (
@@ -76,9 +50,9 @@ export const Favorite = memo(() => {
 
   return (
     <Spin
+      spinning={false}
       wrapperClassName="w-full h-full"
       childStyle={{ height: '100%', width: '100%' }}
-      spinning={loading}
     >
       <div className="px-6 w-full h-full overflow-auto">
         {listRender(
