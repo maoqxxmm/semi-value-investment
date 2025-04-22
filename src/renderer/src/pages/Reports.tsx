@@ -1,5 +1,6 @@
 import { memo, useEffect, useMemo, useRef } from 'react';
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useMemoizedFn } from 'ahooks';
 import dayjs from 'dayjs';
 import { produce } from 'immer';
 import cls from 'classnames';
@@ -8,9 +9,10 @@ import { ApiType, ResearchReportCacheItem } from '@shared/types';
 import { useFavStockProfileList } from '@renderer/hooks';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
 import { currentStockDetailPagePropsAtom, ratingMapAtom } from '@renderer/models';
-import { useMemoizedFn } from 'ahooks';
 
-const industryRearchReportListAtom = atom<ResearchReportCacheItem[] | null>(null);
+const earliestTimeUnix = dayjs().add(-6, 'month').unix();
+
+const industryResearchReportListAtom = atom<ResearchReportCacheItem[] | null>(null);
 const stockResearchReportListAtom = atom<ResearchReportCacheItem[] | null>(null);
 const doNotReadHasOpendedAtom = atom(false);
 
@@ -18,10 +20,8 @@ export const Report = memo(() => {
   const { profileList } = useFavStockProfileList();
 
   const ratingMap = useAtomValue(ratingMapAtom);
-  const [industryList, setIndustryList] = useAtom(industryRearchReportListAtom);
-  console.log('xss industryList: ', industryList);
+  const [industryList, setIndustryList] = useAtom(industryResearchReportListAtom);
   const [stockList, setStockList] = useAtom(stockResearchReportListAtom);
-  console.log('xss stockList: ', stockList);
   const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
 
   const [doNotReadHasOpended, setDoNotReadHasOpended] = useAtom(doNotReadHasOpendedAtom);
@@ -116,8 +116,10 @@ export const Report = memo(() => {
       if (didCancel) {
         return;
       }
-      setIndustryList(industry);
-      setStockList(stock);
+      setIndustryList(
+        industry.filter((item) => dayjs(item.publish_time).unix() > earliestTimeUnix),
+      );
+      setStockList(stock.filter((item) => dayjs(item.publish_time).unix() > earliestTimeUnix));
     })();
     return () => {
       didCancel = true;
@@ -149,6 +151,9 @@ export const Report = memo(() => {
       );
       reportsList.forEach(({ profile, list }) =>
         list.forEach((report) => {
+          if (dayjs(report.publish_time).unix() <= earliestTimeUnix) {
+            return;
+          }
           if (stockList.some((r) => r.art_code === report.art_code)) {
             return;
           }
@@ -192,6 +197,9 @@ export const Report = memo(() => {
       );
       reportsList.forEach(({ bizId, list }) =>
         list.forEach((report) => {
+          if (dayjs(report.publish_time).unix() <= earliestTimeUnix) {
+            return;
+          }
           if (industryList.some((r) => r.art_code === report.art_code)) {
             return;
           }
@@ -219,24 +227,26 @@ export const Report = memo(() => {
   }, []);
 
   return (
-    <div className="w-full h-full flex flex-col p-4">
-      <div className="w-full flex-none mb-4">
-        <div className="flex gap-2">
+    <div className="w-full h-full flex flex-col p-4 text-semi-color-text-1">
+      <div className="w-full flex-none mb-2 flex">
+        <div className="text-lg font-bold">个股和行业研究报告</div>
+        <div className="flex gap-2 ml-auto">
           <div>不看已读</div>
           <Switch checked={doNotReadHasOpended} onChange={setDoNotReadHasOpended} />
         </div>
       </div>
       <div className="flex-1 overflow-hidden flex gap-4">
         <div className="flex-1 h-full overflow-y-auto">
+          <div className="font-bold mb-2">个股研报</div>
           {stockList
             ?.filter((item) => item.attach_url && item.pageCount && item.pageCount > 5)
             ?.filter((item) => !doNotReadHasOpended || !item.hasOpend)
             .map((item) => (
               <div
                 key={item.art_code}
-                className={cls('flex gap-2', { 'opacity-50': item.hasOpend })}
+                className={cls('flex gap-2 overflow-hidden', { 'opacity-50': item.hasOpend })}
               >
-                <div className="font-mono text-semi-color-tertiary">
+                <div className="flex-none font-mono text-semi-color-tertiary">
                   {dayjs(item.publish_time).format('YYYY-MM-DD')}
                 </div>
                 <div
@@ -246,7 +256,7 @@ export const Report = memo(() => {
                       list: profileList.map((item) => item.id),
                     });
                   }}
-                  className="text-semi-color-secondary hover:text-semi-color-secondary-hover cursor-pointer"
+                  className="w-[76px] flex-none text-semi-color-secondary hover:text-semi-color-secondary-active cursor-pointer"
                 >
                   [{item.prefix}]
                 </div>
@@ -257,27 +267,28 @@ export const Report = memo(() => {
                       updateCache('stock', [{ art_code: item.art_code, hasOpend: true }]);
                     }
                   }}
-                  className="text-semi-color-primary hover:text-semi-color-primary-hover cursor-pointer"
+                  className="flex-shrink text-ellipsis whitespace-nowrap overflow-hidden text-semi-color-primary hover:text-semi-color-primary-active cursor-pointer"
                 >
                   {item.title}
                 </div>
-                <div className="text-semi-color-tertiary">({item.pageCount || '-'})</div>
+                <div className="flex-none text-semi-color-tertiary">({item.pageCount || '-'})</div>
               </div>
             ))}
         </div>
         <div className="flex-1 h-full overflow-y-auto">
+          <div className="font-bold mb-2">行业研报</div>
           {industryList
             ?.filter((item) => item.attach_url && item.pageCount && item.pageCount > 5)
             ?.filter((item) => !doNotReadHasOpended || !item.hasOpend)
             ?.map((item) => (
               <div
                 key={item.art_code}
-                className={cls('flex gap-2', { 'opacity-50': item.hasOpend })}
+                className={cls('flex gap-2 overflow-hidden', { 'opacity-50': item.hasOpend })}
               >
-                <div className="font-mono text-semi-color-tertiary">
+                <div className="flex-none font-mono text-semi-color-tertiary">
                   {dayjs(item.publish_time).format('YYYY-MM-DD')}
                 </div>
-                <div className="text-semi-color-tertiary">[{item.prefix}]</div>
+                <div className="flex-none text-semi-color-tertiary">[{item.prefix}]</div>
                 <div
                   onClick={() => {
                     if (item.attach_url) {
@@ -285,11 +296,11 @@ export const Report = memo(() => {
                       updateCache('industry', [{ art_code: item.art_code, hasOpend: true }]);
                     }
                   }}
-                  className="text-semi-color-primary hover:text-semi-color-primary-hover cursor-pointer"
+                  className="flex-shrink overflow-hidden text-ellipsis whitespace-nowrap text-semi-color-primary hover:text-semi-color-primary-hover cursor-pointer"
                 >
                   {item.title}
                 </div>
-                <div className="text-semi-color-tertiary">({item.pageCount || '-'})</div>
+                <div className="flex-none text-semi-color-tertiary">({item.pageCount || '-'})</div>
               </div>
             ))}
         </div>
