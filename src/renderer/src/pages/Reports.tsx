@@ -100,7 +100,7 @@ export const Report = memo(() => {
         })),
       );
       attachPageFetchPoll(type);
-    }, 500);
+    }, 2_500);
   });
 
   useEffect(() => {
