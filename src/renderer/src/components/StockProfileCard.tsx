@@ -3,6 +3,7 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { IconTriangleUp, IconTriangleDown } from '@douyinfe/semi-icons';
 import { Typography, Card, Rating, Divider, Tag } from '@douyinfe/semi-ui';
 import { ratingMapAtom, reviewMapAtom, updateRatingMapAtom } from '@renderer/models';
+import { ReviewEditModal } from '@renderer/components/ReviewEditModal';
 import { ApiType, IStockProfile, KLineType } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
 import { TagProps } from '@douyinfe/semi-ui/lib/es/tag';
@@ -58,7 +59,7 @@ const tagRender = (params: TagRenderParams) => {
       prefixIcon={icon}
       suffixIcon={suffix}
       color={color}
-      style={{ opacity: type === 'ghost' ? 0.6 : 1 }}
+      style={{ opacity: type === 'light' ? 0.6 : 1 }}
     >
       {value.toFixed(1)}
     </Tag>
@@ -72,6 +73,7 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   const ratingMap = useAtomValue(ratingMapAtom);
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
 
+  const [current, setCurrent] = useState<string>('');
   const [index, setIndex] = useState<MonthAndWeekJAndRsi | undefined>(undefined);
 
   useEffect(() => {
@@ -115,38 +117,46 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   }, [profile.id]);
 
   return (
-    <Card
-      key={profile.id}
-      headerLine={false}
-      bodyStyle={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-    >
-      <Card.Meta
-        className="mb-[auto]"
-        title={profile.name}
-        description={reviewMap[profile.id] || '--'}
-      />
-      <div className="flex items-center gap-2 my-2">
-        {index ? (
-          <>
-            {tagRender({ domain: [-5, 100], value: index.day.j, type: 'ghost' })}
-            {tagRender({ domain: [-5, 100], value: index.week.j, type: 'light' })}
-            {tagRender({ domain: [-5, 100], value: index.month.j, type: 'solid' })}
-          </>
-        ) : null}
-      </div>
-      <Divider className="my-3" />
-      <div className="flex items-center justify-between">
-        <Rating
-          className="h-[22px]"
-          size="small"
-          value={ratingMap[profile.id] || 0}
-          onChange={(value) => updateRatingMap({ ...ratingMap, [profile.id]: value })}
+    <>
+      <Card
+        key={profile.id}
+        headerLine={false}
+        bodyStyle={{ height: '100%', display: 'flex', flexDirection: 'column' }}
+      >
+        <Card.Meta
+          className="mb-[auto]"
+          title={profile.name}
+          description={reviewMap[profile.id] || '--'}
         />
-        <Typography.Text link onClick={onMoreInfo}>
-          查看更多
-        </Typography.Text>
-      </div>
-    </Card>
+        <div className="flex items-center gap-2 my-2">
+          {index ? (
+            <>
+              {tagRender({ domain: [-5, 100], value: index.day.j, type: 'light' })}
+              {tagRender({ domain: [-5, 100], value: index.week.j, type: 'ghost' })}
+              {tagRender({ domain: [-5, 100], value: index.month.j, type: 'solid' })}
+            </>
+          ) : null}
+        </div>
+        <Divider className="my-3" />
+        <div className="flex items-center">
+          <Rating
+            className="h-[22px]"
+            size="small"
+            value={ratingMap[profile.id] || 0}
+            onChange={(value) => updateRatingMap({ ...ratingMap, [profile.id]: value })}
+          />
+          <div className="ml-auto flex items-center gap-5">
+            <Typography.Text className="font-normal" link onClick={() => setCurrent(profile.id)}>
+              编辑评价
+            </Typography.Text>
+            <Typography.Text className="font-normal" link onClick={onMoreInfo}>
+              查看更多
+            </Typography.Text>
+          </div>
+        </div>
+        <ReviewEditModal current={current} onClose={() => setCurrent('')} />
+      </Card>
+    </>
   );
 });
 
