@@ -193,7 +193,7 @@ export const StockDetail = memo(() => {
   };
 
   return createPortal(
-    <div className="fixed w-full h-[calc(100%-60px)] top-[60px] left-0 bg-semi-color-bg-0">
+    <div className="fixed w-full h-full top-0 left-0 bg-semi-color-bg-0">
       <Spin
         wrapperClassName="w-full h-full"
         childStyle={{ height: '100%', width: '100%' }}

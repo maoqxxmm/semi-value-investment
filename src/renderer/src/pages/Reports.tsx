@@ -267,7 +267,7 @@ export const Report = memo(() => {
                       updateCache('stock', [{ art_code: item.art_code, hasOpend: true }]);
                     }
                   }}
-                  className="flex-shrink text-ellipsis whitespace-nowrap overflow-hidden text-semi-color-primary hover:text-semi-color-primary-active cursor-pointer"
+                  className="flex-shrink text-ellipsis whitespace-nowrap overflow-hidden text-semi-color-link hover:text-semi-color-link-hover cursor-pointer"
                 >
                   {item.title}
                 </div>
@@ -296,7 +296,7 @@ export const Report = memo(() => {
                       updateCache('industry', [{ art_code: item.art_code, hasOpend: true }]);
                     }
                   }}
-                  className="flex-shrink overflow-hidden text-ellipsis whitespace-nowrap text-semi-color-primary hover:text-semi-color-primary-hover cursor-pointer"
+                  className="flex-shrink overflow-hidden text-ellipsis whitespace-nowrap text-semi-color-link hover:text-semi-color-link-hover cursor-pointer"
                 >
                   {item.title}
                 </div>

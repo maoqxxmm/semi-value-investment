@@ -13,7 +13,7 @@ interface StockProfileCardProps {
   onMoreInfo: () => void;
 }
 
-interface MonthAndWeekJAndRsi {
+interface Index {
   day: {
     j: number;
     rsi: number;
@@ -74,7 +74,7 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
 
   const [current, setCurrent] = useState<string>('');
-  const [index, setIndex] = useState<MonthAndWeekJAndRsi | undefined>(undefined);
+  const [index, setIndex] = useState<Index | null>(null);
 
   useEffect(() => {
     let didCancel = false;
