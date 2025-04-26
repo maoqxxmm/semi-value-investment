@@ -5,6 +5,7 @@ import { Typography, Card, Rating, Divider, Tag } from '@douyinfe/semi-ui';
 import { ratingMapAtom, reviewMapAtom, updateRatingMapAtom } from '@renderer/models';
 import { ApiType, IStockProfile, KLineType } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
+import { TagProps } from '@douyinfe/semi-ui/lib/es/tag';
 
 interface StockProfileCardProps {
   profile: IStockProfile;
@@ -12,6 +13,10 @@ interface StockProfileCardProps {
 }
 
 interface MonthAndWeekJAndRsi {
+  day: {
+    j: number;
+    rsi: number;
+  };
   week: {
     j: number;
     rsi: number;
@@ -26,11 +31,12 @@ interface TagRenderParams {
   domain: [number, number];
   suffix?: string;
   value?: number;
+  type: TagProps['type'];
   highContrast?: boolean;
 }
 
 const tagRender = (params: TagRenderParams) => {
-  const { domain, suffix, value, highContrast } = params;
+  const { domain, suffix, value, type } = params;
   if (!value) {
     return null;
   }
@@ -47,11 +53,12 @@ const tagRender = (params: TagRenderParams) => {
   const color = value < domain[0] ? 'lime' : 'pink';
   return (
     <Tag
-      type={highContrast ? 'solid' : 'light'}
+      type={type}
       shape="circle"
       prefixIcon={icon}
       suffixIcon={suffix}
       color={color}
+      style={{ opacity: type === 'ghost' ? 0.6 : 1 }}
     >
       {value.toFixed(1)}
     </Tag>
@@ -65,14 +72,16 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
   const ratingMap = useAtomValue(ratingMapAtom);
   const updateRatingMap = useSetAtom(updateRatingMapAtom);
 
-  const [monthAndWeekJAndRsi, setMonthAndWeekJAndRsi] = useState<MonthAndWeekJAndRsi | undefined>(
-    undefined,
-  );
+  const [index, setIndex] = useState<MonthAndWeekJAndRsi | undefined>(undefined);
 
   useEffect(() => {
     let didCancel = false;
     (async () => {
-      const [month, week] = await Promise.all([
+      const [day, month, week] = await Promise.all([
+        safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
+          stockId: profile.id,
+          type: KLineType.DAY,
+        }),
         safelyRequestByIpcWithErrorToast(ApiType.GET_KDJ_RSI, {
           stockId: profile.id,
           type: KLineType.MONTH,
@@ -85,7 +94,11 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
       if (didCancel) {
         return;
       }
-      setMonthAndWeekJAndRsi({
+      setIndex({
+        day: {
+          j: day.j.slice(-1)[0]?.value || 0,
+          rsi: day.rsi.slice(-1)[0].value || 0,
+        },
         month: {
           j: month.j.slice(-1)[0]?.value || 0,
           rsi: month.rsi.slice(-1)[0].value || 0,
@@ -113,22 +126,11 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
         description={reviewMap[profile.id] || '--'}
       />
       <div className="flex items-center gap-2 my-2">
-        {monthAndWeekJAndRsi ? (
+        {index ? (
           <>
-            {tagRender({ domain: [0, 100], suffix: 'J', value: monthAndWeekJAndRsi.week.j })}
-            {tagRender({ domain: [20, 80], suffix: 'RSI', value: monthAndWeekJAndRsi.week.rsi })}
-            {tagRender({
-              domain: [0, 100],
-              suffix: 'J',
-              value: monthAndWeekJAndRsi.month.j,
-              highContrast: true,
-            })}
-            {tagRender({
-              domain: [20, 80],
-              suffix: 'RSI',
-              value: monthAndWeekJAndRsi.month.rsi,
-              highContrast: true,
-            })}
+            {tagRender({ domain: [-5, 100], value: index.day.j, type: 'ghost' })}
+            {tagRender({ domain: [-5, 100], value: index.week.j, type: 'light' })}
+            {tagRender({ domain: [-5, 100], value: index.month.j, type: 'solid' })}
           </>
         ) : null}
       </div>
