@@ -6,7 +6,7 @@ import { ratingMapAtom, reviewMapAtom, updateRatingMapAtom } from '@renderer/mod
 import { ReviewEditModal } from '@renderer/components/ReviewEditModal';
 import { ApiType, IStockProfile, KLineType } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
-import { TagProps } from '@douyinfe/semi-ui/lib/es/tag';
+import { TagColor, TagType } from '@douyinfe/semi-ui/lib/es/tag';
 
 interface StockProfileCardProps {
   profile: IStockProfile;
@@ -28,38 +28,50 @@ interface Index {
   };
 }
 
+type LevelType = '1' | '2' | '3';
+
 interface TagRenderParams {
   domain: [number, number];
   suffix?: string;
   value?: number;
-  type: TagProps['type'];
   highContrast?: boolean;
+  level: LevelType;
 }
 
+const LEVEL_TO_TAG_TYPE: Record<LevelType, TagType> = {
+  '1': 'solid',
+  '2': 'ghost',
+  '3': 'light',
+};
+
 const tagRender = (params: TagRenderParams) => {
-  const { domain, suffix, value, type } = params;
+  const { domain, suffix, value, level } = params;
   if (!value) {
     return null;
   }
+
   // 范围内不渲染
   if (value <= domain[1] && value >= domain[0]) {
     return null;
   }
+
   const icon =
     value < domain[0] ? (
       <IconTriangleDown style={{ fontSize: 10 }} />
     ) : (
       <IconTriangleUp style={{ fontSize: 10 }} />
     );
+
   const color = value < domain[0] ? 'lime' : 'pink';
+
   return (
     <Tag
-      type={type}
+      type={LEVEL_TO_TAG_TYPE[level]}
       shape="circle"
       prefixIcon={icon}
       suffixIcon={suffix}
       color={color}
-      style={{ opacity: type === 'light' ? 0.6 : 1 }}
+      style={{ opacity: 1 - 0.25 * (Number(level) - 1) }}
     >
       {value.toFixed(1)}
     </Tag>
@@ -131,9 +143,9 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
         <div className="flex items-center gap-2 my-2">
           {index ? (
             <>
-              {tagRender({ domain: [-5, 100], value: index.day.j, type: 'light' })}
-              {tagRender({ domain: [-5, 100], value: index.week.j, type: 'ghost' })}
-              {tagRender({ domain: [-5, 100], value: index.month.j, type: 'solid' })}
+              {tagRender({ domain: [-5, 100], level: '3', value: index.day.j })}
+              {tagRender({ domain: [-5, 100], level: '2', value: index.week.j })}
+              {tagRender({ domain: [-5, 100], level: '1', value: index.month.j })}
             </>
           ) : null}
         </div>
