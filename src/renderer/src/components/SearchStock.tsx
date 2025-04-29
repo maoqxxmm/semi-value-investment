@@ -1,5 +1,4 @@
 import React, { memo, useState } from 'react';
-import { createPortal } from 'react-dom';
 import { useSetAtom } from 'jotai';
 import { useDebounceFn } from 'ahooks';
 import { IconSearch } from '@douyinfe/semi-icons';
@@ -33,7 +32,14 @@ export const SearchStock = memo((props: SearchStockProps) => {
   const { run: onDebouncedSearch } = useDebounceFn(onSearch, { wait: 300 });
 
   return (
-    <Modal visible={visible} closable={false} footer={null} width="min(80%, 600px)">
+    <Modal
+      visible={visible}
+      closable={false}
+      footer={null}
+      width="min(80%, 600px)"
+      maskClosable
+      onCancel={onClose}
+    >
       <div className="w-full flex justify-center">
         <AutoComplete<IStockSearchItem>
           defaultActiveFirstOption
