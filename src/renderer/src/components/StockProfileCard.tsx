@@ -6,7 +6,7 @@ import { ratingMapAtom, reviewMapAtom, updateRatingMapAtom } from '@renderer/mod
 import { ReviewEditModal } from '@renderer/components/ReviewEditModal';
 import { ApiType, IStockProfile, KLineType } from '@shared/types';
 import { safelyRequestByIpcWithErrorToast } from '@renderer/utils';
-import { TagColor, TagType } from '@douyinfe/semi-ui/lib/es/tag';
+import { TagType } from '@douyinfe/semi-ui/lib/es/tag';
 
 interface StockProfileCardProps {
   profile: IStockProfile;
@@ -71,7 +71,7 @@ const tagRender = (params: TagRenderParams) => {
       prefixIcon={icon}
       suffixIcon={suffix}
       color={color}
-      style={{ opacity: 1 - 0.25 * (Number(level) - 1) }}
+      style={{ opacity: 1 - 0.15 * (Number(level) - 1) }}
     >
       {value.toFixed(1)}
     </Tag>
@@ -143,9 +143,9 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
         <div className="flex items-center gap-2 my-2">
           {index ? (
             <>
-              {tagRender({ domain: [-5, 100], level: '3', value: index.day.j })}
-              {tagRender({ domain: [-5, 100], level: '2', value: index.week.j })}
               {tagRender({ domain: [-5, 100], level: '1', value: index.month.j })}
+              {tagRender({ domain: [-5, 100], level: '2', value: index.week.j })}
+              {tagRender({ domain: [-5, 100], level: '3', value: index.day.j })}
             </>
           ) : null}
         </div>
