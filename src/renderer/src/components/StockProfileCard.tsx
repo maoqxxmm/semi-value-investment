@@ -39,9 +39,9 @@ interface TagRenderParams {
 }
 
 const LEVEL_TO_TAG_TYPE: Record<LevelType, TagType> = {
-  '1': 'solid',
-  '2': 'ghost',
-  '3': 'light',
+  1: 'solid',
+  2: 'ghost',
+  3: 'light',
 };
 
 const tagRender = (params: TagRenderParams) => {
@@ -49,21 +49,17 @@ const tagRender = (params: TagRenderParams) => {
   if (!value) {
     return null;
   }
-
   // 范围内不渲染
   if (value <= domain[1] && value >= domain[0]) {
     return null;
   }
-
   const icon =
     value < domain[0] ? (
       <IconTriangleDown style={{ fontSize: 10 }} />
     ) : (
       <IconTriangleUp style={{ fontSize: 10 }} />
     );
-
   const color = value < domain[0] ? 'lime' : 'pink';
-
   return (
     <Tag
       type={LEVEL_TO_TAG_TYPE[level]}

@@ -2,7 +2,14 @@ import { memo, useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useMemoizedFn } from 'ahooks';
 import { Dropdown, Button, Space, Tooltip, Toast } from '@douyinfe/semi-ui';
-import { IconSun, IconMoon, IconSync, IconGallery, IconCalendar } from '@douyinfe/semi-icons';
+import {
+  IconSun,
+  IconMoon,
+  IconSync,
+  IconGallery,
+  IconCalendar,
+  IconSearch,
+} from '@douyinfe/semi-icons';
 import { ReportMonth } from '@shared/types';
 import { ThemeType } from '@renderer/types';
 import { useTheme } from '@renderer/hooks';
@@ -94,6 +101,14 @@ export const NavFooter = memo(() => {
             className="text-semi-color-text-0"
             theme="borderless"
             icon={<IconGallery />}
+          />
+        </Tooltip>
+        <Tooltip position="bottom" content="搜索">
+          <Button
+            onClick={() => setSearchVisible(true)}
+            className="text-semi-color-text-0"
+            theme="borderless"
+            icon={<IconSearch />}
           />
         </Tooltip>
         <Dropdown
