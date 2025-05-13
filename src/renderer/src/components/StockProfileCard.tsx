@@ -139,9 +139,9 @@ export const StockProfileCard = memo((props: StockProfileCardProps) => {
         <div className="flex items-center gap-2 my-2">
           {index ? (
             <>
-              {tagRender({ domain: [5, 95], level: '1', value: index.month.j })}
-              {tagRender({ domain: [5, 95], level: '2', value: index.week.j })}
-              {tagRender({ domain: [5, 95], level: '3', value: index.day.j })}
+              {tagRender({ domain: [10, 85], level: '1', value: index.month.j })}
+              {tagRender({ domain: [10, 85], level: '2', value: index.week.j })}
+              {tagRender({ domain: [10, 85], level: '3', value: index.day.j })}
             </>
           ) : null}
         </div>

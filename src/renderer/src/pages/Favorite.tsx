@@ -1,6 +1,6 @@
 import { memo, ReactNode, useState } from 'react';
 import { useAtomValue, useSetAtom } from 'jotai';
-import { Spin, Divider, Button } from '@douyinfe/semi-ui';
+import { Divider, Button } from '@douyinfe/semi-ui';
 import {
   currentStockDetailPagePropsAtom,
   favoriteStockIdListAtom,
@@ -49,46 +49,40 @@ export const Favorite = memo(() => {
   };
 
   return (
-    <Spin
-      spinning={false}
-      wrapperClassName="w-full h-full"
-      childStyle={{ height: '100%', width: '100%' }}
-    >
-      <div className="px-6 w-full h-full overflow-auto">
-        {listRender(
-          '买入',
-          profileList.filter((item) => ratingMap[item.id] === 5),
-          <div className="ml-auto my-2">
-            <Button theme="solid" onClick={() => setRefreshCount((pre) => pre + 1)}>
-              刷新数据
-            </Button>
-          </div>,
-        )}
-        {listRender(
-          '增持',
-          profileList.filter((item) => ratingMap[item.id] === 4),
-        )}
-        {listRender(
-          '中性',
-          profileList.filter((item) => ratingMap[item.id] === 3),
-        )}
-        {listRender(
-          '减持',
-          profileList.filter((item) => ratingMap[item.id] === 2),
-        )}
-        {listRender(
-          '卖出',
-          profileList.filter((item) => ratingMap[item.id] === 1),
-        )}
-        <Divider margin={48} align="center">
-          以下是未持有数据
-        </Divider>
-        {listRender(
-          '未持有',
-          profileList.filter((item) => !ratingMap[item.id]),
-        )}
-      </div>
-    </Spin>
+    <div className="px-6 w-full h-full overflow-auto">
+      {listRender(
+        '买入',
+        profileList.filter((item) => ratingMap[item.id] === 5),
+        <div className="ml-auto my-2">
+          <Button theme="solid" onClick={() => setRefreshCount((pre) => pre + 1)}>
+            刷新数据
+          </Button>
+        </div>,
+      )}
+      {listRender(
+        '增持',
+        profileList.filter((item) => ratingMap[item.id] === 4),
+      )}
+      {listRender(
+        '中性',
+        profileList.filter((item) => ratingMap[item.id] === 3),
+      )}
+      {listRender(
+        '减持',
+        profileList.filter((item) => ratingMap[item.id] === 2),
+      )}
+      {listRender(
+        '卖出',
+        profileList.filter((item) => ratingMap[item.id] === 1),
+      )}
+      <Divider margin={48} align="center">
+        以下是未持有数据
+      </Divider>
+      {listRender(
+        '未持有',
+        profileList.filter((item) => !ratingMap[item.id]),
+      )}
+    </div>
   );
 });
 
