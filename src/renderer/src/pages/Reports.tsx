@@ -20,10 +20,9 @@ export const Report = memo(() => {
   const { profileList } = useFavStockProfileList();
 
   const ratingMap = useAtomValue(ratingMapAtom);
+  const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
   const [industryList, setIndustryList] = useAtom(industryResearchReportListAtom);
   const [stockList, setStockList] = useAtom(stockResearchReportListAtom);
-  const setCurrent = useSetAtom(currentStockDetailPagePropsAtom);
-
   const [doNotReadHasOpended, setDoNotReadHasOpended] = useAtom(doNotReadHasOpendedAtom);
 
   const industryPollTimeoutRef = useRef<number>(0);
@@ -100,7 +99,7 @@ export const Report = memo(() => {
         })),
       );
       attachPageFetchPoll(type);
-    }, 2_500);
+    }, 5_000);
   });
 
   useEffect(() => {

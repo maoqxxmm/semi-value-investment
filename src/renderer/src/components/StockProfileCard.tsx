@@ -40,8 +40,8 @@ interface TagRenderParams {
 
 const LEVEL_TO_TAG_TYPE: Record<LevelType, TagType> = {
   1: 'solid',
-  2: 'ghost',
-  3: 'light',
+  2: 'light',
+  3: 'ghost',
 };
 
 const tagRender = (params: TagRenderParams) => {
@@ -67,7 +67,7 @@ const tagRender = (params: TagRenderParams) => {
       prefixIcon={icon}
       suffixIcon={suffix}
       color={color}
-      style={{ opacity: 1 - 0.15 * (Number(level) - 1) }}
+      style={level === '3' ? { opacity: 0.5 } : {}}
     >
       {value.toFixed(1)}
     </Tag>

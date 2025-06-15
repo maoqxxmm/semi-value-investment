@@ -169,7 +169,7 @@ const apiMap: Pick<
       business: 'f10',
       page_index: 1,
       page_size: 999,
-      begin_time: dayjs().add(-3, 'year').format('YYYY-MM-DD'),
+      begin_time: dayjs().add(-1, 'year').format('YYYY-MM-DD'),
       end_time: dayjs().format('YYYY-MM-DD'),
       indu_old_industry_code: Number(bizId.replace('BK', '')),
       report_type: '2',
